@@ -18,7 +18,7 @@ const num = String(index + 1).padStart(2, '0');
   data-animate
 >
   <!-- Visual panel — unique per service, nothing repeated from text -->
-  <div class="w-full lg:w-1/2 shrink-0">
+  <div class="w-full lg:w-1/2 shrink-0 order-2 lg:order-none">
     <div class={`relative aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br ${service.bgGradient} border border-[var(--color-border)]`}>
 
       {service.id === 'seo' && (
@@ -227,7 +227,7 @@ const num = String(index + 1).padStart(2, '0');
   </div>
 
   <!-- Text column -->
-  <div class="flex-1">
+  <div class="flex-1 order-1 lg:order-none">
     <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent-alt)] mb-4">
       Service {num}
     </p>
