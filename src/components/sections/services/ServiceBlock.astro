@@ -13,17 +13,17 @@ const num = String(index + 1).padStart(2, '0');
 ---
 
 <div
-  class={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-16 items-center py-20 border-b border-[var(--color-border)] last:border-0`}
+  class={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-8 lg:gap-16 items-center py-12 lg:py-20 border-b border-[var(--color-border)] last:border-0`}
   id={service.id}
   data-animate
 >
   <!-- Visual panel — unique per service, nothing repeated from text -->
   <div class="w-full lg:w-1/2 shrink-0 order-2 lg:order-none">
-    <div class={`relative aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br ${service.bgGradient} border border-[var(--color-border)]`}>
+    <div class={`relative aspect-square lg:aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br ${service.bgGradient} border border-[var(--color-border)]`}>
 
       {service.id === 'seo' && (
         /* SERP mockup — client ranks #1 */
-        <div class="absolute inset-0 flex flex-col justify-center gap-3 p-7">
+        <div class="absolute inset-0 flex flex-col justify-center gap-2 lg:gap-3 p-4 lg:p-7">
           <!-- Search bar -->
           <div class="flex items-center gap-2.5 bg-white rounded-xl px-4 py-3 shadow-sm border border-emerald-100">
             <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
@@ -71,7 +71,7 @@ const num = String(index + 1).padStart(2, '0');
 
       {service.id === 'social' && (
         /* Content grid mimicking a social feed */
-        <div class="absolute inset-0 p-6 grid grid-cols-3 grid-rows-3 gap-2.5">
+        <div class="absolute inset-0 p-3 lg:p-6 grid grid-cols-3 grid-rows-3 gap-2">
           <div class="col-span-2 row-span-2 rounded-xl bg-violet-200 flex items-center justify-center text-2xl font-bold text-violet-400 font-[var(--font-heading)]">4.8×</div>
           <div class="rounded-xl bg-purple-300 opacity-80"></div>
           <div class="rounded-xl bg-violet-300 opacity-70"></div>
@@ -89,7 +89,7 @@ const num = String(index + 1).padStart(2, '0');
 
       {service.id === 'paid' && (
         /* Conversion funnel */
-        <div class="absolute inset-0 flex flex-col items-center justify-center gap-2 px-10 py-8">
+        <div class="absolute inset-0 flex flex-col items-center justify-center gap-2 px-5 py-5 lg:px-10 lg:py-8">
           <div class="w-full text-center">
             <div class="bg-amber-200 rounded-xl py-3 px-4 mb-2">
               <span class="text-xs font-semibold text-amber-800">Awareness</span>
@@ -115,9 +115,9 @@ const num = String(index + 1).padStart(2, '0');
 
       {service.id === 'brand' && (
         /* Type specimen + color palette */
-        <div class="absolute inset-0 flex flex-col items-center justify-center gap-8 p-8">
+        <div class="absolute inset-0 flex flex-col items-center justify-center gap-4 lg:gap-8 p-5 lg:p-8">
           <div class="text-center">
-            <p class="font-[var(--font-heading)] text-8xl font-extrabold leading-none text-pink-300 select-none">Aa</p>
+            <p class="font-[var(--font-heading)] text-6xl lg:text-8xl font-extrabold leading-none text-pink-300 select-none">Aa</p>
             <p class="text-xs text-[var(--color-text-muted)] mt-2 tracking-widest uppercase">Syne Display</p>
           </div>
           <div class="flex gap-3">
@@ -134,7 +134,7 @@ const num = String(index + 1).padStart(2, '0');
 
       {service.id === 'email' && (
         /* Flat inbox mockup */
-        <div class="absolute inset-0 flex flex-col justify-center px-8 py-6 gap-3">
+        <div class="absolute inset-0 flex flex-col justify-center px-4 py-4 lg:px-8 lg:py-6 gap-3">
           <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-sky-100">
             <div class="bg-sky-50 px-4 py-2.5 flex items-center gap-2 border-b border-sky-100">
               <div class="flex gap-1.5">
@@ -183,7 +183,7 @@ const num = String(index + 1).padStart(2, '0');
 
       {service.id === 'web' && (
         /* Browser + Lighthouse scores */
-        <div class="absolute inset-0 flex flex-col justify-center px-8 py-6 gap-4">
+        <div class="absolute inset-0 flex flex-col justify-center px-4 py-4 lg:px-8 lg:py-6 gap-4">
           <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-indigo-100">
             <div class="bg-gray-50 px-4 py-2 flex items-center gap-2 border-b border-gray-100">
               <div class="flex gap-1.5">
