@@ -1,0 +1,37 @@
+---
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'outline' | 'outline-dark';
+  class?: string;
+  type?: 'button' | 'submit' | 'reset';
+  'data-magnetic'?: boolean | string;
+}
+
+const {
+  href,
+  variant = 'primary',
+  class: className = '',
+  type = 'button',
+  ...rest
+} = Astro.props;
+
+const base = 'inline-flex items-center gap-2 rounded-full px-7 py-3.5 font-semibold text-sm tracking-wide transition-all duration-300 cursor-pointer';
+
+const variants = {
+  primary: 'bg-[var(--color-accent)] text-[var(--color-text)] hover:brightness-110 hover:scale-105',
+  outline: 'border border-[var(--color-text)] text-[var(--color-text)] hover:bg-[var(--color-text)] hover:text-[var(--color-bg)]',
+  'outline-dark': 'border border-[var(--color-bg)] text-[var(--color-bg)] hover:bg-[var(--color-bg)] hover:text-[var(--color-text)]',
+};
+
+const classes = `${base} ${variants[variant]} ${className}`;
+---
+
+{href ? (
+  <a href={href} class={classes} data-cursor-hover {...rest}>
+    <slot />
+  </a>
+) : (
+  <button type={type} class={classes} data-cursor-hover {...rest}>
+    <slot />
+  </button>
+)}

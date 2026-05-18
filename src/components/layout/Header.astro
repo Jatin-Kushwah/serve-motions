@@ -1,0 +1,123 @@
+---
+import Button from '@/components/ui/Button.astro';
+
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/services', label: 'Services' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-2 font-[var(--font-heading)] font-extrabold text-xl text-[var(--color-text)] tracking-tight" data-cursor-hover aria-label="Serve Motions home">
+      <span class="text-[var(--color-accent)] text-2xl">S</span>erve Motions
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="hidden lg:flex items-center gap-8" aria-label="Main navigation">
+      {navLinks.map(({ href, label }) => (
+        <a
+          href={href}
+          class={`nav-link text-sm font-medium text-[var(--color-text)] transition-colors duration-200 data-cursor-hover ${currentPath === href || (href !== '/' && currentPath.startsWith(href)) ? 'active' : ''}`}
+          aria-current={currentPath === href ? 'page' : undefined}
+          data-cursor-hover
+        >
+          {label}
+        </a>
+      ))}
+    </nav>
+
+    <!-- CTA + Hamburger -->
+    <div class="flex items-center gap-4">
+      <div class="hidden lg:block">
+        <Button href="/contact" variant="primary">
+          Get a Quote
+        </Button>
+      </div>
+
+      <button
+        id="hamburger"
+        class="lg:hidden flex flex-col gap-1.5 p-2 cursor-pointer"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-overlay"
+      >
+        <span class="hamburger-line block w-6 h-0.5 bg-[var(--color-text)] transition-all duration-300 origin-center"></span>
+        <span class="hamburger-line block w-6 h-0.5 bg-[var(--color-text)] transition-all duration-300"></span>
+        <span class="hamburger-line block w-6 h-0.5 bg-[var(--color-text)] transition-all duration-300 origin-center"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile overlay -->
+<div id="mobile-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <button id="overlay-close" class="absolute top-6 right-6 p-2 cursor-pointer" aria-label="Close menu">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </button>
+
+  <nav class="flex flex-col items-center gap-8" aria-label="Mobile navigation">
+    {navLinks.map(({ href, label }) => (
+      <a
+        href={href}
+        class="mobile-nav-link font-[var(--font-heading)] text-4xl font-bold text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors"
+        data-cursor-hover
+      >
+        {label}
+      </a>
+    ))}
+    <Button href="/contact" variant="primary" class="mt-4">
+      Get a Quote
+    </Button>
+  </nav>
+</div>
+
+<script>
+  import { gsap } from 'gsap';
+
+  const header = document.getElementById('site-header')!;
+  const hamburger = document.getElementById('hamburger')!;
+  const overlay = document.getElementById('mobile-overlay')!;
+  const closeBtn = document.getElementById('overlay-close')!;
+  const mobileLinks = overlay.querySelectorAll('.mobile-nav-link');
+
+  // Scroll state
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  function openOverlay() {
+    overlay.classList.add('open');
+    hamburger.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    gsap.fromTo(
+      mobileLinks,
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.4, stagger: 0.07, ease: 'power2.out', delay: 0.1 }
+    );
+  }
+
+  function closeOverlay() {
+    overlay.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  hamburger.addEventListener('click', openOverlay);
+  closeBtn.addEventListener('click', closeOverlay);
+
+  mobileLinks.forEach((link) => {
+    link.addEventListener('click', closeOverlay);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('open')) closeOverlay();
+  });
+</script>

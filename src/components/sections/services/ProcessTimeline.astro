@@ -1,0 +1,106 @@
+---
+const steps = [
+  {
+    number: '01',
+    name: 'Discovery & Audit',
+    description: 'Deep-dive into your business, goals, current performance, and competitive landscape.',
+    weeks: 'Week 1–2',
+  },
+  {
+    number: '02',
+    name: 'Blueprint',
+    description: 'Data-backed strategy document with channel priorities, targeting, creative direction, and KPIs.',
+    weeks: 'Week 3',
+  },
+  {
+    number: '03',
+    name: 'Build & Launch',
+    description: 'Set up tracking, build campaigns, produce creative, and go live with a phased rollout.',
+    weeks: 'Week 4–6',
+  },
+  {
+    number: '04',
+    name: 'Optimise & Scale',
+    description: 'Continuous testing, weekly optimisations, and monthly strategy reviews to compound results.',
+    weeks: 'Week 7+',
+  },
+];
+---
+
+<section class="py-28 px-6 bg-[var(--color-surface)]" data-animate>
+  <div class="max-w-7xl mx-auto">
+    <div class="mb-16">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent-alt)] mb-4">Our Process</p>
+      <h2 class="font-[var(--font-heading)] text-4xl md:text-5xl font-bold text-[var(--color-text)] leading-tight max-w-lg">
+        How we go from brief to results.
+      </h2>
+    </div>
+
+    <!-- Desktop: horizontal -->
+    <div class="hidden lg:block relative">
+      <!-- Connecting line -->
+      <div class="absolute top-8 left-8 right-8 h-px bg-[var(--color-border)]" aria-hidden="true">
+        <div id="timeline-progress" class="h-full bg-[var(--color-accent-alt)] timeline-line"></div>
+      </div>
+
+      <div class="grid grid-cols-4 gap-8">
+        {steps.map((step, i) => (
+          <div class="relative">
+            <!-- Circle -->
+            <div class="w-16 h-16 bg-[var(--color-accent)] rounded-full flex items-center justify-center mb-8 relative z-10">
+              <span class="font-[var(--font-heading)] font-extrabold text-lg text-[var(--color-text)]">{step.number}</span>
+            </div>
+
+            <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-text-muted)] mb-2">{step.weeks}</p>
+            <h3 class="font-[var(--font-heading)] text-xl font-bold text-[var(--color-text)] mb-3">{step.name}</h3>
+            <p class="text-sm text-[var(--color-text-muted)] leading-relaxed">{step.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Mobile: vertical -->
+    <div class="lg:hidden space-y-10">
+      {steps.map((step) => (
+        <div class="flex gap-6">
+          <div class="flex flex-col items-center">
+            <div class="w-12 h-12 bg-[var(--color-accent)] rounded-full flex items-center justify-center shrink-0">
+              <span class="font-[var(--font-heading)] font-extrabold text-sm text-[var(--color-text)]">{step.number}</span>
+            </div>
+            <div class="w-px flex-1 bg-[var(--color-border)] mt-3" aria-hidden="true"></div>
+          </div>
+          <div class="pb-10">
+            <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-text-muted)] mb-1">{step.weeks}</p>
+            <h3 class="font-[var(--font-heading)] text-xl font-bold text-[var(--color-text)] mb-2">{step.name}</h3>
+            <p class="text-sm text-[var(--color-text-muted)] leading-relaxed">{step.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const mm = gsap.matchMedia();
+
+  mm.add('(prefers-reduced-motion: no-preference) and (min-width: 1024px)', () => {
+    const line = document.getElementById('timeline-progress');
+    if (!line) return;
+
+    gsap.to(line, {
+      scaleX: 1,
+      duration: 1.2,
+      ease: 'power2.inOut',
+      scrollTrigger: {
+        trigger: line,
+        start: 'top 75%',
+        once: true,
+      },
+    });
+  });
+</script>

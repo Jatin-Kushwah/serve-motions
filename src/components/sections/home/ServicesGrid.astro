@@ -1,0 +1,58 @@
+---
+import { TrendingUp, Share2, Target, Palette, Mail, Globe } from '@lucide/astro';
+import { services } from '@/data/services';
+import Button from '@/components/ui/Button.astro';
+
+const icons: Record<string, any> = { TrendingUp, Share2, Target, Palette, Mail, Globe };
+---
+
+<section class="py-28 px-6 bg-[var(--color-surface)]" data-animate>
+  <div class="max-w-7xl mx-auto">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent-alt)] mb-4">What We Do</p>
+        <h2 class="font-[var(--font-heading)] text-4xl md:text-5xl font-bold text-[var(--color-text)] leading-tight max-w-lg">
+          Every channel. One team. Zero compromise.
+        </h2>
+      </div>
+      <Button href="/services" variant="outline">
+        View all services
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2.5 7h9M8 3.5l3.5 3.5L8 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </Button>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {services.map((service, i) => {
+        const Icon = icons[service.icon];
+        const num = String(i + 1).padStart(2, '0');
+        return (
+          <article class="service-card group relative bg-[var(--color-bg)] border border-[var(--color-border)] rounded-2xl p-8 overflow-hidden cursor-pointer" data-cursor-hover>
+            <!-- Decorative number -->
+            <span class="absolute top-4 right-6 font-[var(--font-heading)] text-7xl font-extrabold text-[var(--color-border)] select-none leading-none transition-colors duration-300 group-hover:text-[rgba(0,201,167,0.12)]" aria-hidden="true">
+              {num}
+            </span>
+
+            <!-- Icon -->
+            <div class="relative w-12 h-12 rounded-xl bg-[var(--color-surface)] flex items-center justify-center mb-6 text-[var(--color-text-muted)] transition-colors duration-300 group-hover:bg-[var(--color-accent)] group-hover:text-[var(--color-text)]">
+              <Icon size={22} />
+            </div>
+
+            <!-- Content -->
+            <h3 class="font-[var(--font-heading)] text-lg font-bold text-[var(--color-text)] mb-3 leading-snug">{service.name}</h3>
+            <p class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-6">{service.description}</p>
+
+            <!-- Arrow link -->
+            <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-accent-alt)] opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
+              <span>Learn more</span>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M2.5 7h9M8 3.5l3.5 3.5L8 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</section>

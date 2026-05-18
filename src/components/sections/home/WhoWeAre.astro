@@ -1,0 +1,42 @@
+---
+const stats = [
+  { value: 200, suffix: '+', label: 'Clients worldwide' },
+  { value: 98, suffix: '%', label: 'Client retention rate' },
+  { value: 5, suffix: '×', label: 'Average ROI delivered' },
+];
+---
+
+<section class="py-28 px-6 bg-[var(--color-bg)]" data-animate>
+  <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
+    <!-- Left: copy -->
+    <div>
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent-alt)] mb-6">Who We Are</p>
+      <h2 class="font-[var(--font-heading)] text-4xl md:text-5xl font-bold text-[var(--color-text)] leading-tight mb-8">
+        We don't do vanity metrics. We do results.
+      </h2>
+      <p class="text-[var(--color-text-muted)] leading-relaxed mb-5">
+        NovaMark Digital was founded on a simple belief: marketing should make businesses money. Not just generate impressions, likes, or reports that sound impressive but mean nothing.
+      </p>
+      <p class="text-[var(--color-text-muted)] leading-relaxed">
+        Every strategy we build is grounded in your commercial goals. We work as an extension of your team — accountable, proactive, and obsessed with measurable outcomes.
+      </p>
+    </div>
+
+    <!-- Right: stats -->
+    <div class="grid grid-cols-1 gap-8">
+      {stats.map(({ value, suffix, label }) => (
+        <div class="flex items-center gap-6 border-b border-[var(--color-border)] pb-8 last:border-0 last:pb-0">
+          <div class="flex items-baseline gap-1">
+            <span
+              class="stats-number font-[var(--font-heading)] text-6xl font-extrabold text-[var(--color-text)]"
+              data-counter
+              data-target={value}
+            >0</span>
+            <span class="font-[var(--font-heading)] text-4xl font-extrabold text-[var(--color-accent-alt)]">{suffix}</span>
+          </div>
+          <p class="text-[var(--color-text-muted)] font-medium">{label}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

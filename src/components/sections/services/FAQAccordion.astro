@@ -1,0 +1,99 @@
+---
+import { faqs } from '@/data/faq';
+---
+
+<section class="py-28 px-6 bg-[var(--color-bg)]" data-animate>
+  <div class="max-w-7xl mx-auto">
+    <div class="mb-16">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent-alt)] mb-4">FAQ</p>
+      <h2 class="font-[var(--font-heading)] text-4xl md:text-5xl font-bold text-[var(--color-text)] leading-tight max-w-lg">
+        Straight answers to real questions.
+      </h2>
+    </div>
+
+    <div class="max-w-3xl" id="faq-list">
+      {faqs.map((faq) => (
+        <div class="faq-item border-b border-[var(--color-border)]" data-faq-id={faq.id}>
+          <button
+            class="faq-trigger w-full flex items-center justify-between gap-8 py-7 text-left cursor-pointer"
+            aria-expanded="false"
+            data-cursor-hover
+          >
+            <span class="font-semibold text-[var(--color-text)] text-base md:text-lg pr-4">{faq.question}</span>
+            <span class="faq-icon shrink-0 w-8 h-8 border border-[var(--color-border)] rounded-full flex items-center justify-center text-[var(--color-accent)] font-bold text-lg transition-transform duration-300" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-content" aria-hidden="true">
+            <p class="text-[var(--color-text-muted)] leading-relaxed pb-7">{faq.answer}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+
+  const items = document.querySelectorAll<HTMLElement>('.faq-item');
+
+  items.forEach((item) => {
+    const trigger = item.querySelector<HTMLButtonElement>('.faq-trigger')!;
+    const content = item.querySelector<HTMLElement>('.faq-content')!;
+    const icon = item.querySelector<HTMLElement>('.faq-icon')!;
+    let isOpen = false;
+
+    function open() {
+      isOpen = true;
+      trigger.setAttribute('aria-expanded', 'true');
+      content.setAttribute('aria-hidden', 'false');
+      icon.textContent = '×';
+      icon.style.transform = 'rotate(0deg)';
+      gsap.to(content, {
+        height: content.scrollHeight,
+        duration: 0.4,
+        ease: 'power2.inOut',
+      });
+    }
+
+    function close() {
+      isOpen = false;
+      trigger.setAttribute('aria-expanded', 'false');
+      content.setAttribute('aria-hidden', 'true');
+      icon.textContent = '+';
+      gsap.to(content, {
+        height: 0,
+        duration: 0.4,
+        ease: 'power2.inOut',
+      });
+    }
+
+    trigger.addEventListener('click', () => {
+      if (isOpen) {
+        close();
+      } else {
+        // Close all others
+        items.forEach((other) => {
+          if (other !== item) {
+            const otherTrigger = other.querySelector<HTMLButtonElement>('.faq-trigger')!;
+            const otherContent = other.querySelector<HTMLElement>('.faq-content')!;
+            const otherIcon = other.querySelector<HTMLElement>('.faq-icon')!;
+            if (otherTrigger.getAttribute('aria-expanded') === 'true') {
+              otherTrigger.setAttribute('aria-expanded', 'false');
+              otherContent.setAttribute('aria-hidden', 'true');
+              otherIcon.textContent = '+';
+              gsap.to(otherContent, { height: 0, duration: 0.3, ease: 'power2.inOut' });
+            }
+          }
+        });
+        open();
+      }
+    });
+
+    trigger.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        trigger.click();
+      }
+    });
+  });
+</script>

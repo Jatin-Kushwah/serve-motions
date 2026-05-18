@@ -1,0 +1,116 @@
+---
+import { SEO } from 'astro-seo';
+import { GoogleFontsOptimizer } from 'astro-google-fonts-optimizer';
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+import CustomCursor from '@/components/ui/CustomCursor.astro';
+import '@/styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  canonicalURL?: string;
+  schema?: Record<string, unknown>;
+}
+
+const {
+  title,
+  description,
+  image = '/og/default.jpg',
+  canonicalURL = Astro.url.href,
+  schema,
+} = Astro.props;
+
+const siteName = 'Serve Motions';
+const siteURL = 'https://servemotions.com';
+
+const defaultSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: siteName,
+  url: siteURL,
+  logo: `${siteURL}/favicon.svg`,
+  contactPoint: {
+    '@type': 'ContactPoint',
+    email: 'hello@servemotions.com',
+    contactType: 'customer service',
+  },
+  sameAs: [
+    'https://linkedin.com/company/servemotions',
+    'https://twitter.com/servemotions',
+  ],
+};
+
+const activeSchema = schema ?? defaultSchema;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0B0B1A" />
+
+    <SEO
+      title={`${title} | ${siteName}`}
+      description={description}
+      canonical={canonicalURL}
+      openGraph={{
+        basic: {
+          title: `${title} | ${siteName}`,
+          type: 'website',
+          image: `${siteURL}${image}`,
+          url: canonicalURL,
+        },
+        optional: {
+          description,
+          siteName,
+        },
+        image: {
+          alt: `${title} — ${siteName}`,
+        },
+      }}
+      twitter={{
+        card: 'summary_large_image',
+        title: `${title} | ${siteName}`,
+        description,
+        image: `${siteURL}${image}`,
+      }}
+    />
+
+    <GoogleFontsOptimizer
+      url="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@400;500;600;700&display=swap"
+    />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(activeSchema)} />
+  </head>
+  <body>
+    <div id="page-overlay" aria-hidden="true"></div>
+
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+
+    <CustomCursor />
+
+    <script>
+      import { initSplitting } from '@/scripts/splitting';
+      import { initScrollAnimations, initPageOverlay, initCounters } from '@/scripts/animation';
+      import '@/scripts/lenis';
+      import { initCursor } from '@/scripts/cursor';
+      import { initMagnetic } from '@/scripts/magnetic';
+
+      initSplitting();
+      initPageOverlay();
+      initScrollAnimations();
+      initCounters();
+      initCursor();
+      initMagnetic();
+    </script>
+  </body>
+</html>

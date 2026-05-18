@@ -1,0 +1,30 @@
+---
+import { testimonials } from '@/data/testimonials';
+---
+
+<section class="py-28 px-6 bg-[var(--color-surface)]" data-animate>
+  <div class="max-w-7xl mx-auto">
+    <div class="mb-16">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent-alt)] mb-4">What Clients Say</p>
+      <h2 class="font-[var(--font-heading)] text-4xl md:text-5xl font-bold text-[var(--color-text)] leading-tight max-w-md">
+        Don't take our word for it.
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {testimonials.map((t) => (
+        <blockquote class="bg-[var(--color-bg)] border border-[var(--color-border)] rounded-2xl p-8 flex flex-col">
+          <span class="font-[var(--font-heading)] text-5xl font-extrabold text-[var(--color-accent)] leading-none mb-6" aria-hidden="true">&ldquo;</span>
+          <p class="text-[var(--color-text)] leading-relaxed flex-1 mb-8">{t.quote}</p>
+          <footer>
+            <hr class="border-[var(--color-border)] mb-5" />
+            <div>
+              <p class="font-semibold text-[var(--color-text)] text-sm">{t.name}</p>
+              <p class="text-xs text-[var(--color-text-muted)]">{t.role}, {t.company}</p>
+            </div>
+          </footer>
+        </blockquote>
+      ))}
+    </div>
+  </div>
+</section>

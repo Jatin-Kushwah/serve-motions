@@ -1,0 +1,42 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Hero from '@/components/sections/home/Hero.astro';
+import MarqueeStrip from '@/components/sections/home/MarqueeStrip.astro';
+import WhoWeAre from '@/components/sections/home/WhoWeAre.astro';
+import ServicesGrid from '@/components/sections/home/ServicesGrid.astro';
+import FeaturedWork from '@/components/sections/home/FeaturedWork.astro';
+import Testimonials from '@/components/sections/home/Testimonials.astro';
+import CTABand from '@/components/sections/home/CTABand.astro';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Serve Motions',
+  url: 'https://servemotions.com',
+  logo: 'https://servemotions.com/favicon.svg',
+  description: 'Digital marketing agency specialising in SEO, paid advertising, social media, brand identity, and web development.',
+  contactPoint: {
+    '@type': 'ContactPoint',
+    email: 'hello@servemotions.com',
+    contactType: 'customer service',
+  },
+  sameAs: [
+    'https://linkedin.com/company/servemotions',
+    'https://twitter.com/servemotions',
+  ],
+};
+---
+
+<BaseLayout
+  title="Serve Motions — Digital Marketing Agency"
+  description="We help brands grow online through SEO, paid advertising, social media, brand identity, and web development. Results-first digital marketing."
+  schema={schema}
+>
+  <Hero />
+  <MarqueeStrip />
+  <WhoWeAre />
+  <ServicesGrid />
+  <FeaturedWork />
+  <Testimonials />
+  <CTABand />
+</BaseLayout>

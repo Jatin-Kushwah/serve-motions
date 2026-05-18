@@ -1,0 +1,93 @@
+---
+import { ArrowUpRight } from '@lucide/astro';
+
+const companyLinks = [
+  { href: '/about', label: 'About Us' },
+  { href: '/services', label: 'Services' },
+  { href: '/contact', label: 'Contact' },
+];
+
+const serviceLinks = [
+  { href: '/services#seo', label: 'SEO & Content' },
+  { href: '/services#social', label: 'Social Media' },
+  { href: '/services#paid', label: 'Paid Advertising' },
+  { href: '/services#brand', label: 'Brand & Design' },
+  { href: '/services#email', label: 'Email Marketing' },
+  { href: '/services#web', label: 'Web Development' },
+];
+---
+
+<footer class="bg-[var(--color-footer-bg)] text-[var(--color-border)]">
+  <div class="max-w-7xl mx-auto px-6 py-20">
+    <!-- Top grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-16 border-b border-white/10">
+      <!-- Brand -->
+      <div class="lg:col-span-1">
+        <a href="/" class="font-[var(--font-heading)] font-extrabold text-2xl text-white tracking-tight mb-4 block" data-cursor-hover>
+          <span class="text-[var(--color-accent)]">S</span>erve Motions
+        </a>
+        <p class="text-sm text-white/50 leading-relaxed max-w-xs">
+          We help brands grow online through strategy, creativity, and data.
+        </p>
+      </div>
+
+      <!-- Company -->
+      <div>
+        <h3 class="text-white font-semibold text-sm uppercase tracking-widest mb-5">Company</h3>
+        <ul class="space-y-3">
+          {companyLinks.map(({ href, label }) => (
+            <li>
+              <a href={href} class="text-sm text-white/50 hover:text-[var(--color-accent)] transition-colors" data-cursor-hover>
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Services -->
+      <div>
+        <h3 class="text-white font-semibold text-sm uppercase tracking-widest mb-5">Services</h3>
+        <ul class="space-y-3">
+          {serviceLinks.map(({ href, label }) => (
+            <li>
+              <a href={href} class="text-sm text-white/50 hover:text-[var(--color-accent)] transition-colors" data-cursor-hover>
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Connect -->
+      <div>
+        <h3 class="text-white font-semibold text-sm uppercase tracking-widest mb-5">Connect</h3>
+        <div class="flex gap-4 mb-8">
+          <a href="#" class="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors" aria-label="LinkedIn" data-cursor-hover>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="#" class="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors" aria-label="Twitter / X" data-cursor-hover>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="#" class="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors" aria-label="Instagram" data-cursor-hover>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+        </div>
+        <div>
+          <p class="text-xs text-white/30 uppercase tracking-widest mb-1">Legal</p>
+          <a href="#" class="text-sm text-white/50 hover:text-[var(--color-accent)] transition-colors" data-cursor-hover>Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom row -->
+    <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-white/30">
+        &copy; 2026 Serve Motions. All rights reserved.
+      </p>
+      <a href="/contact" class="flex items-center gap-1 text-sm text-white/50 hover:text-[var(--color-accent)] transition-colors" data-cursor-hover>
+        Start a project <ArrowUpRight size={14} />
+      </a>
+    </div>
+  </div>
+</footer>

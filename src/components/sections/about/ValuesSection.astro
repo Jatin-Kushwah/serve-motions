@@ -1,0 +1,49 @@
+---
+import { Lightbulb, Eye, BarChart2, Users } from '@lucide/astro';
+
+const values = [
+  {
+    icon: Lightbulb,
+    title: 'Innovation',
+    description: 'We stay ahead of platform changes, algorithm shifts, and new channels so you never fall behind.',
+  },
+  {
+    icon: Eye,
+    title: 'Transparency',
+    description: 'No jargon, no hidden fees, no vanity metrics. You always know exactly what we\'re doing and why.',
+  },
+  {
+    icon: BarChart2,
+    title: 'Results',
+    description: 'We measure success the same way you do — revenue, leads, and growth. Not likes and impressions.',
+  },
+  {
+    icon: Users,
+    title: 'Partnership',
+    description: 'We work as an extension of your team, not a vendor. Your goals are our goals.',
+  },
+];
+---
+
+<section class="py-28 px-6 bg-[var(--color-surface)]" data-animate>
+  <div class="max-w-7xl mx-auto">
+    <div class="mb-16">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent-alt)] mb-4">Our Values</p>
+      <h2 class="font-[var(--font-heading)] text-4xl md:text-5xl font-bold text-[var(--color-text)] leading-tight max-w-md">
+        What we stand for.
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {values.map(({ icon: Icon, title, description }) => (
+        <article class="bg-[var(--color-bg)] border border-[var(--color-border)] rounded-2xl p-8">
+          <div class="w-12 h-12 text-[var(--color-accent-alt)] mb-6">
+            <Icon size={28} />
+          </div>
+          <h3 class="font-[var(--font-heading)] text-xl font-bold text-[var(--color-text)] mb-3">{title}</h3>
+          <p class="text-sm text-[var(--color-text-muted)] leading-relaxed">{description}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

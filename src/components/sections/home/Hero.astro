@@ -1,0 +1,79 @@
+---
+import Button from '@/components/ui/Button.astro';
+---
+
+<section class="min-h-screen flex flex-col justify-center pt-32 pb-20 px-6 relative overflow-hidden" style="background: radial-gradient(ellipse 70% 60% at 75% 20%, rgba(0, 201, 167, 0.07) 0%, transparent 65%), radial-gradient(ellipse 50% 40% at 10% 90%, rgba(0, 51, 255, 0.04) 0%, transparent 60%);">
+  <div class="max-w-7xl mx-auto w-full">
+    <!-- Label -->
+    <div class="hero-label mb-8 opacity-0">
+      <span class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent-alt)]">
+        Digital Marketing Agency
+      </span>
+    </div>
+
+    <!-- Headline -->
+    <div class="overflow-hidden mb-8">
+      <h1
+        class="font-[var(--font-heading)] text-6xl sm:text-7xl md:text-8xl lg:text-[clamp(4rem,9vw,8rem)] font-extrabold leading-[1.0] text-[var(--color-text)] max-w-4xl"
+        data-splitting
+        aria-label="We Build Brands That Dominate."
+      >
+        We Build Brands That <span class="text-[var(--color-accent-alt)]">Dominate.</span>
+      </h1>
+    </div>
+
+    <!-- Sub + CTA row -->
+    <div class="hero-sub opacity-0 flex flex-col sm:flex-row items-start sm:items-center gap-8 mt-10">
+      <p class="text-lg md:text-xl text-[var(--color-text-muted)] leading-relaxed max-w-sm">
+        Strategy-first digital marketing that drives measurable growth — more traffic, more leads, more revenue.
+      </p>
+      <div class="flex flex-wrap gap-4 shrink-0">
+        <Button href="/contact" variant="primary">Start a Project</Button>
+        <Button href="/services" variant="outline">Our Services</Button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Decorative element -->
+  <div class="absolute bottom-12 right-12 hidden lg:block" aria-hidden="true">
+    <div class="w-px h-24 bg-[var(--color-border)] mx-auto mb-3"></div>
+    <p class="text-xs text-[var(--color-text-muted)] uppercase tracking-[0.2em] rotate-90 origin-center translate-x-8">Scroll</p>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+
+  const mm = gsap.matchMedia();
+
+  mm.add('(prefers-reduced-motion: no-preference)', () => {
+    // Wait for Splitting to run
+    const tl = gsap.timeline({ delay: 0.45 });
+
+    const chars = document.querySelectorAll('[data-splitting] .char');
+
+    tl.fromTo(
+      '.hero-label',
+      { opacity: 0, y: 10 },
+      { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }
+    )
+    .fromTo(
+      chars,
+      { yPercent: 100, opacity: 0 },
+      { yPercent: 0, opacity: 1, duration: 0.7, ease: 'power3.out', stagger: 0.018 },
+      '-=0.2'
+    )
+    .fromTo(
+      '.hero-sub',
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
+      '-=0.3'
+    );
+  });
+
+  mm.add('(prefers-reduced-motion: reduce)', () => {
+    document.querySelectorAll('.hero-label, .hero-sub').forEach((el) => {
+      (el as HTMLElement).style.opacity = '1';
+    });
+  });
+</script>

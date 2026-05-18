@@ -1,0 +1,39 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/ui/PageHero.astro';
+import ContactForm from '@/components/sections/contact/ContactForm.astro';
+import ContactInfo from '@/components/sections/contact/ContactInfo.astro';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: 'Contact Serve Motions',
+  url: 'https://servemotions.com/contact',
+  description: 'Get in touch with Serve Motions to discuss your digital marketing needs.',
+};
+---
+
+<BaseLayout
+  title="Contact Serve Motions"
+  description="Get in touch with Serve Motions. We respond within 24 hours. Start a conversation about growing your brand online."
+  schema={schema}
+>
+  <PageHero
+    headline="Let's talk about your growth."
+    intro="Fill in the form and we'll get back to you within 24 hours. No pitch, just a conversation."
+  />
+
+  <section class="py-20 px-6" data-animate>
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-16">
+      <!-- Form (takes more space) -->
+      <div class="lg:col-span-3">
+        <ContactForm />
+      </div>
+
+      <!-- Info column -->
+      <div class="lg:col-span-2">
+        <ContactInfo />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

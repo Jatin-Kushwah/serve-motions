@@ -1,0 +1,23 @@
+---
+const items = [
+  'SEO & Content Strategy',
+  'Social Media Marketing',
+  'Paid Advertising',
+  'Brand Identity & Design',
+  'Email Marketing',
+  'Web Design & Development',
+];
+
+const separator = '✦';
+---
+
+<div class="bg-[var(--color-surface)] border-y border-[var(--color-border)] py-4 overflow-hidden" aria-label="Our services">
+  <div class="marquee-track flex items-center gap-8 whitespace-nowrap w-max">
+    {[...items, ...items].map((item) => (
+      <span class="flex items-center gap-8 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-text-muted)]">
+        <span>{item}</span>
+        <span class="text-[var(--color-accent)] text-base" aria-hidden="true">{separator}</span>
+      </span>
+    ))}
+  </div>
+</div>

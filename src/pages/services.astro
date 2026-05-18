@@ -1,0 +1,32 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/ui/PageHero.astro';
+import ServiceBlock from '@/components/sections/services/ServiceBlock.astro';
+import ProcessTimeline from '@/components/sections/services/ProcessTimeline.astro';
+import FAQAccordion from '@/components/sections/services/FAQAccordion.astro';
+import SectionCTA from '@/components/ui/SectionCTA.astro';
+import { services } from '@/data/services';
+---
+
+<BaseLayout
+  title="Our Services"
+  description="From SEO to paid ads, brand identity to web development — discover how Serve Motions can grow your business online."
+>
+  <PageHero
+    headline="What we do, and how we do it."
+    intro="Six integrated disciplines. One accountable team. Built to drive measurable growth across every channel."
+    accentWord="how"
+  />
+
+  <section class="px-6 pb-20">
+    <div class="max-w-7xl mx-auto">
+      {services.map((service, i) => (
+        <ServiceBlock service={service} index={i} />
+      ))}
+    </div>
+  </section>
+
+  <ProcessTimeline />
+  <FAQAccordion />
+  <SectionCTA headline="Talk to a Strategist" cta="Start a Conversation" href="/contact" />
+</BaseLayout>
