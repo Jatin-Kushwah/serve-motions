@@ -20,13 +20,13 @@
 
   <!-- Content -->
   <div class="relative z-10 max-w-7xl mx-auto w-full">
-    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent-alt)] mb-6">Our Story</p>
+    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6">· Our Story</p>
     <h1
       class="font-[var(--font-heading)] text-5xl md:text-6xl lg:text-7xl font-extrabold text-[var(--color-text)] leading-[1.05] mb-8 max-w-3xl"
       data-splitting
-      aria-label="We Are NovaMark."
+      aria-label="We Are Serve Motions."
     >
-      We Are NovaMark.
+      We Are Serve Motions.
     </h1>
     <p class="text-lg md:text-xl text-[var(--color-text-muted)] leading-relaxed max-w-xl">
       Born from the belief that great marketing is a business strategy, not a checkbox. We exist to make brands matter.
@@ -45,8 +45,8 @@
 
     gsap.fromTo(
       chars,
-      { yPercent: 100, opacity: 0 },
-      { yPercent: 0, opacity: 1, duration: 0.7, ease: 'power3.out', stagger: 0.025, delay: 0.4 }
+      { y: 40, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out', stagger: 0.025, delay: 0.4 }
     );
   });
 </script>

@@ -4,17 +4,20 @@ import { services } from '@/data/services';
 
 const url = Astro.url;
 const success = url.searchParams.get('success') === 'true';
+
+const inputClass = "w-full min-h-[44px] px-4 py-3 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[var(--color-surface-2)] text-[var(--color-text)] placeholder:text-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] transition-colors text-sm";
 ---
 
 {success ? (
-  <div class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-12 text-center">
-    <div class="w-16 h-16 bg-[var(--color-accent)] rounded-full flex items-center justify-center mx-auto mb-6">
+  <div class="bg-[var(--color-surface-2)] border border-[var(--color-border)] rounded-2xl p-12 text-center">
+    <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6" style="background: linear-gradient(135deg, #4F6EF7, #7C3AED);">
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-        <path d="M5 14l7 7L23 7" stroke="var(--color-text)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M5 14l7 7L23 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </div>
     <h2 class="font-[var(--font-heading)] text-2xl font-bold text-[var(--color-text)] mb-3">Message sent!</h2>
-    <p class="text-[var(--color-text-muted)]">We'll be in touch within 24 hours. Talk soon.</p>
+    <p class="text-[var(--color-text-muted)] mb-8">We'll be in touch within 24 hours. Talk soon.</p>
+    <Button href="/" variant="outline">Back to Home</Button>
   </div>
 ) : (
   <form
@@ -28,7 +31,6 @@ const success = url.searchParams.get('success') === 'true';
   >
     <input type="hidden" name="form-name" value="contact" />
 
-    <!-- Honeypot (hidden from humans) -->
     <div style="display:none;" aria-hidden="true">
       <label>
         Don't fill this out
@@ -39,7 +41,7 @@ const success = url.searchParams.get('success') === 'true';
     <div class="grid sm:grid-cols-2 gap-6">
       <div>
         <label for="name" class="block text-sm font-semibold text-[var(--color-text)] mb-2">
-          Name <span class="text-[var(--color-accent-alt)]">*</span>
+          Name <span class="text-[var(--color-accent)]">*</span>
         </label>
         <input
           type="text"
@@ -47,12 +49,13 @@ const success = url.searchParams.get('success') === 'true';
           name="name"
           required
           placeholder="Your name"
-          class="w-full min-h-[44px] px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text)] placeholder:text-[var(--color-border)] focus:outline-none focus:border-[var(--color-accent-alt)] transition-colors text-sm"
+          class={inputClass}
+          style="-webkit-autofill: unset;"
         />
       </div>
       <div>
         <label for="email" class="block text-sm font-semibold text-[var(--color-text)] mb-2">
-          Email <span class="text-[var(--color-accent-alt)]">*</span>
+          Email <span class="text-[var(--color-accent)]">*</span>
         </label>
         <input
           type="email"
@@ -60,7 +63,8 @@ const success = url.searchParams.get('success') === 'true';
           name="email"
           required
           placeholder="you@company.com"
-          class="w-full min-h-[44px] px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text)] placeholder:text-[var(--color-border)] focus:outline-none focus:border-[var(--color-accent-alt)] transition-colors text-sm"
+          class={inputClass}
+          style="-webkit-autofill: unset;"
         />
       </div>
     </div>
@@ -74,7 +78,7 @@ const success = url.searchParams.get('success') === 'true';
         id="company"
         name="company"
         placeholder="Your company name"
-        class="w-full min-h-[44px] px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text)] placeholder:text-[var(--color-border)] focus:outline-none focus:border-[var(--color-accent-alt)] transition-colors text-sm"
+        class={inputClass}
       />
     </div>
 
@@ -85,7 +89,7 @@ const success = url.searchParams.get('success') === 'true';
       <select
         id="service"
         name="service"
-        class="w-full min-h-[44px] px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text)] focus:outline-none focus:border-[var(--color-accent-alt)] transition-colors text-sm appearance-none cursor-pointer"
+        class={`${inputClass} appearance-none cursor-pointer`}
       >
         <option value="">Select a service...</option>
         {services.map((s) => (
@@ -97,7 +101,7 @@ const success = url.searchParams.get('success') === 'true';
 
     <div>
       <label for="message" class="block text-sm font-semibold text-[var(--color-text)] mb-2">
-        Message <span class="text-[var(--color-accent-alt)]">*</span>
+        Message <span class="text-[var(--color-accent)]">*</span>
       </label>
       <textarea
         id="message"
@@ -105,19 +109,31 @@ const success = url.searchParams.get('success') === 'true';
         required
         rows={5}
         placeholder="Tell us about your project, goals, and timeline..."
-        class="w-full px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text)] placeholder:text-[var(--color-border)] focus:outline-none focus:border-[var(--color-accent-alt)] transition-colors text-sm resize-none"
+        class={`${inputClass} resize-none`}
       ></textarea>
     </div>
 
     <button
       type="submit"
       id="submit-btn"
-      class="w-full min-h-[52px] bg-[var(--color-accent)] text-[var(--color-text)] font-semibold rounded-full py-4 hover:brightness-110 transition-all duration-300 text-sm tracking-wide cursor-pointer"
+      class="w-full min-h-[52px] text-white font-semibold rounded-full py-4 hover:brightness-110 transition-all duration-300 text-sm tracking-wide cursor-pointer"
+      style="background: linear-gradient(135deg, #4F6EF7, #7C3AED);"
     >
       Send Message
     </button>
   </form>
 )}
+
+<style>
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px #1C1C1C inset !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+    caret-color: #FFFFFF;
+  }
+</style>
 
 <script>
   const form = document.getElementById('contact-form') as HTMLFormElement | null;

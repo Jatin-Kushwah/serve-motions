@@ -88,7 +88,9 @@ const activeSchema = schema ?? defaultSchema;
     <script type="application/ld+json" set:html={JSON.stringify(activeSchema)} />
   </head>
   <body>
-    <div id="page-overlay" aria-hidden="true"></div>
+    <div id="page-overlay" aria-hidden="true" class="flex items-center justify-center">
+      <span class="font-[var(--font-heading)] text-2xl font-extrabold tracking-tight text-white select-none">Serve Motions</span>
+    </div>
 
     <Header />
     <main>

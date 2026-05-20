@@ -1,14 +1,15 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #FFFFFF;
-  --color-surface: #F6F6F3;
-  --color-text: #0B0B1A;
-  --color-text-muted: #5A5A72;
-  --color-accent: #00C9A7;
-  --color-accent-alt: #0033FF;
-  --color-footer-bg: #080812;
-  --color-border: #E4E4E0;
+  --color-bg: #0A0A0A;
+  --color-surface: #141414;
+  --color-surface-2: #1C1C1C;
+  --color-text: #FFFFFF;
+  --color-text-muted: #9A9A9A;
+  --color-accent: #4F6EF7;
+  --color-accent-alt: #7C3AED;
+  --color-footer-bg: #050505;
+  --color-border: rgba(255, 255, 255, 0.08);
 
   --font-heading: "Syne", system-ui, sans-serif;
   --font-body: "Inter", system-ui, sans-serif;
@@ -19,8 +20,8 @@
   --radius-xl: 1.5rem;
   --radius-full: 9999px;
 
-  --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 32px 64px rgba(0, 0, 0, 0.12);
+  --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 32px 64px rgba(0, 0, 0, 0.6);
 }
 
 html {
@@ -65,7 +66,7 @@ body {
 .cursor-ring {
   width: 30px;
   height: 30px;
-  border: 1.5px solid rgba(11, 11, 26, 0.35);
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
   border-radius: 50%;
   transform: translate(-50%, -50%);
   transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease;
@@ -134,7 +135,7 @@ body {
 header.scrolled {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(10, 10, 10, 0.85);
   border-bottom: 1px solid var(--color-border);
 }
 
@@ -160,14 +161,14 @@ header.scrolled {
 
 /* Service card hover */
 .service-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-left: 4px solid transparent;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  border: 1px solid var(--color-border);
 }
 
 .service-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-card);
-  border-left-color: var(--color-accent);
+  border-color: rgba(79, 110, 247, 0.4);
 }
 
 /* Work card hover */
@@ -176,7 +177,23 @@ header.scrolled {
 }
 
 .work-card:hover {
-  transform: scale(1.02);
+  transform: scale(1.04);
+}
+
+/* Work card overlay */
+.work-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  transition: background 0.3s ease;
+  border-radius: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.work-card:hover .work-card-overlay {
+  background: rgba(0, 0, 0, 0.1);
 }
 
 /* Stats counter */
@@ -192,8 +209,17 @@ header.scrolled {
 
 /* Process timeline line */
 .timeline-line {
-  transform-origin: left;
-  transform: scaleX(0);
+  transform-origin: top;
+  transform: scaleY(0);
+}
+
+/* Heading size utilities */
+.heading-h2 {
+  font-size: clamp(3.5rem, 6vw, 4.5rem);
+}
+
+.heading-h3 {
+  font-size: clamp(2rem, 3.5vw, 2.5rem);
 }
 
 /* About hero shapes */

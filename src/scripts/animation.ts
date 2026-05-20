@@ -37,7 +37,7 @@ export function initPageOverlay(): void {
   mm.add('(prefers-reduced-motion: no-preference)', () => {
     gsap.to(overlay, {
       opacity: 0,
-      duration: 0.4,
+      duration: 0.6,
       ease: 'power2.out',
       onComplete: () => overlay.remove(),
     });

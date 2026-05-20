@@ -4,7 +4,7 @@ import PageHero from '@/components/ui/PageHero.astro';
 import ServiceBlock from '@/components/sections/services/ServiceBlock.astro';
 import ProcessTimeline from '@/components/sections/services/ProcessTimeline.astro';
 import FAQAccordion from '@/components/sections/services/FAQAccordion.astro';
-import SectionCTA from '@/components/ui/SectionCTA.astro';
+import CTABand from '@/components/sections/home/CTABand.astro';
 import { services } from '@/data/services';
 ---
 
@@ -28,5 +28,5 @@ import { services } from '@/data/services';
 
   <ProcessTimeline />
   <FAQAccordion />
-  <SectionCTA headline="Talk to a Strategist" cta="Start a Conversation" href="/contact" />
+  <CTABand />
 </BaseLayout>

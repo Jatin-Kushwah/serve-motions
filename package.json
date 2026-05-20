@@ -21,6 +21,7 @@
     "gsap": "^3.12.7",
     "lenis": "^1.1.20",
     "splitting": "^1.0.6",
+    "swiper": "^12.1.4",
     "tailwindcss": "^4.2.4"
   }
 }

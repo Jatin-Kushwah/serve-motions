@@ -4,18 +4,18 @@ import AboutHero from '@/components/sections/about/AboutHero.astro';
 import ValuesSection from '@/components/sections/about/ValuesSection.astro';
 import TeamGrid from '@/components/sections/about/TeamGrid.astro';
 import MilestoneTimeline from '@/components/sections/about/MilestoneTimeline.astro';
-import SectionCTA from '@/components/ui/SectionCTA.astro';
+import CTABand from '@/components/sections/home/CTABand.astro';
 ---
 
 <BaseLayout
-  title="About NovaMark Digital"
-  description="Meet the team behind NovaMark Digital — strategy-first marketers who measure success by your revenue, not vanity metrics."
+  title="About Serve Motions"
+  description="Meet the team behind Serve Motions — strategy-first marketers who measure success by your revenue, not vanity metrics."
 >
   <div class="about-page">
     <AboutHero />
     <ValuesSection />
     <TeamGrid />
     <MilestoneTimeline />
-    <SectionCTA headline="Join Our Growing Client List" cta="Get in Touch" href="/contact" />
+    <CTABand />
   </div>
 </BaseLayout>

@@ -7,30 +7,42 @@ import Button from '@/components/ui/Button.astro';
   <div class="max-w-7xl mx-auto">
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
       <div>
-        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent-alt)] mb-4">Our Work</p>
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-4">· Our Work</p>
         <h2 class="font-[var(--font-heading)] text-4xl md:text-5xl font-bold text-[var(--color-text)] leading-tight">
           Proof that strategy wins.
         </h2>
       </div>
+      <Button href="/contact" variant="outline">
+        View All Work
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2.5 7h9M8 3.5l3.5 3.5L8 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </Button>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       {work.map((item) => (
-        <article class="work-card rounded-2xl overflow-hidden group" data-cursor-hover>
-          <!-- Placeholder gradient bg -->
+        <article class="work-card rounded-2xl overflow-hidden group relative cursor-pointer" data-cursor-hover>
           <div
             class="aspect-[4/3] flex flex-col justify-end p-8 relative"
             style={`background: ${item.bgGradient};`}
             role="img"
             aria-label={`${item.client} case study`}
           >
+            <!-- Overlay -->
+            <div class="work-card-overlay rounded-none">
+              <span class="text-sm font-semibold text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 tracking-wide">
+                View Project →
+              </span>
+            </div>
+
             <!-- Category tag -->
-            <span class="absolute top-6 left-6 text-xs font-semibold uppercase tracking-[0.15em] text-white/60 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1">
+            <span class="absolute top-6 left-6 text-xs font-semibold uppercase tracking-[0.15em] text-white/60 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1 z-10">
               {item.category}
             </span>
 
             <!-- Bottom content -->
-            <div>
+            <div class="relative z-10">
               <p class="font-[var(--font-heading)] text-4xl font-extrabold text-[var(--color-accent)] mb-1">
                 {item.metric}
               </p>

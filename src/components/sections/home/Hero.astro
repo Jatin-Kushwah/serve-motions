@@ -2,23 +2,27 @@
 import Button from '@/components/ui/Button.astro';
 ---
 
-<section class="min-h-screen flex flex-col justify-center pt-32 pb-20 px-6 relative overflow-hidden" style="background: radial-gradient(ellipse 70% 60% at 75% 20%, rgba(0, 201, 167, 0.07) 0%, transparent 65%), radial-gradient(ellipse 50% 40% at 10% 90%, rgba(0, 51, 255, 0.04) 0%, transparent 60%);">
-  <div class="max-w-7xl mx-auto w-full">
+<section class="min-h-screen flex flex-col justify-center pt-32 pb-20 px-6 relative overflow-hidden bg-[var(--color-bg)]">
+  <!-- Background orbs -->
+  <div class="hero-orb hero-orb-1 absolute pointer-events-none" aria-hidden="true" style="top: -10%; right: -5%; width: 60vw; height: 60vw; max-width: 700px; max-height: 700px; background: radial-gradient(ellipse 70% 70% at center, rgba(79,110,247,0.12), transparent); will-change: transform; z-index: 0;"></div>
+  <div class="hero-orb hero-orb-2 absolute pointer-events-none" aria-hidden="true" style="bottom: -5%; left: -10%; width: 40vw; height: 40vw; max-width: 500px; max-height: 500px; background: radial-gradient(ellipse 70% 70% at center, rgba(124,58,237,0.07), transparent); will-change: transform; z-index: 0;"></div>
+
+  <div class="max-w-7xl mx-auto w-full relative z-10">
     <!-- Label -->
     <div class="hero-label mb-8 opacity-0">
-      <span class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent-alt)]">
-        Digital Marketing Agency
+      <span class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)]">
+        · Digital Marketing Agency
       </span>
     </div>
 
     <!-- Headline -->
     <div class="overflow-hidden mb-8">
       <h1
-        class="font-[var(--font-heading)] text-6xl sm:text-7xl md:text-8xl lg:text-[clamp(4rem,9vw,8rem)] font-extrabold leading-[1.0] text-[var(--color-text)] max-w-4xl"
+        class="font-[var(--font-heading)] text-[clamp(3.5rem,7vw,5.625rem)] lg:text-[clamp(5.625rem,9vw,7.5rem)] font-extrabold leading-[1.0] text-[var(--color-text)] max-w-4xl"
         data-splitting
-        aria-label="We Build Brands That Dominate."
+        aria-label="We Build Brands That Move."
       >
-        We Build Brands That <span class="text-[var(--color-accent-alt)]">Dominate.</span>
+        We Build Brands That <span class="hero-gradient-word" style="background: linear-gradient(135deg, #4F6EF7, #7C3AED); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Move.</span>
       </h1>
     </div>
 
@@ -28,13 +32,30 @@ import Button from '@/components/ui/Button.astro';
         Strategy-first digital marketing that drives measurable growth — more traffic, more leads, more revenue.
       </p>
       <div class="flex flex-wrap gap-4 shrink-0">
-        <Button href="/contact" variant="primary">Start a Project</Button>
+        <Button href="/contact" variant="gradient">Let's Talk</Button>
         <Button href="/services" variant="outline">Our Services</Button>
       </div>
     </div>
   </div>
 
-  <!-- Decorative element -->
+  <!-- Circular text badge (desktop only) -->
+  <div class="absolute top-32 right-12 hidden lg:flex items-center justify-center" aria-hidden="true" style="width: 150px; height: 150px;">
+    <svg viewBox="0 0 150 150" width="150" height="150" class="shape-rotate absolute inset-0">
+      <defs>
+        <path id="hero-circle-path" d="M 75,75 m -55,0 a 55,55 0 1,1 110,0 a 55,55 0 1,1 -110,0" />
+      </defs>
+      <text font-size="10.5" fill="#4F6EF7" font-family="var(--font-body)" font-weight="600" letter-spacing="2.5">
+        <textPath href="#hero-circle-path">SERVE MOTIONS · DIGITAL AGENCY · </textPath>
+      </text>
+    </svg>
+    <div class="absolute z-10 w-8 h-8 rounded-full flex items-center justify-center" style="background: linear-gradient(135deg, #4F6EF7, #7C3AED);">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="white" stroke="white" stroke-width="1" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
   <div class="absolute bottom-12 right-12 hidden lg:block" aria-hidden="true">
     <div class="w-px h-24 bg-[var(--color-border)] mx-auto mb-3"></div>
     <p class="text-xs text-[var(--color-text-muted)] uppercase tracking-[0.2em] rotate-90 origin-center translate-x-8">Scroll</p>
@@ -43,12 +64,14 @@ import Button from '@/components/ui/Button.astro';
 
 <script>
   import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
 
   const mm = gsap.matchMedia();
 
   mm.add('(prefers-reduced-motion: no-preference)', () => {
-    // Wait for Splitting to run
-    const tl = gsap.timeline({ delay: 0.45 });
+    const tl = gsap.timeline({ delay: 0.7 });
 
     const chars = document.querySelectorAll('[data-splitting] .char');
 
@@ -59,8 +82,8 @@ import Button from '@/components/ui/Button.astro';
     )
     .fromTo(
       chars,
-      { yPercent: 100, opacity: 0 },
-      { yPercent: 0, opacity: 1, duration: 0.7, ease: 'power3.out', stagger: 0.018 },
+      { y: 40, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out', stagger: 0.04 },
       '-=0.2'
     )
     .fromTo(
@@ -69,6 +92,18 @@ import Button from '@/components/ui/Button.astro';
       { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
       '-=0.3'
     );
+
+    // Orb parallax
+    gsap.to('.hero-orb', {
+      y: -80,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: 'section',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+      },
+    });
   });
 
   mm.add('(prefers-reduced-motion: reduce)', () => {

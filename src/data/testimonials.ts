@@ -4,6 +4,7 @@ export interface Testimonial {
   name: string;
   company: string;
   role: string;
+  rating: number;
 }
 
 export const testimonials: Testimonial[] = [
@@ -13,6 +14,7 @@ export const testimonials: Testimonial[] = [
     name: 'Sarah Chen',
     company: 'Nexova Health',
     role: 'CMO',
+    rating: 5,
   },
   {
     id: 't2',
@@ -20,6 +22,7 @@ export const testimonials: Testimonial[] = [
     name: 'Marcus Okonkwo',
     company: 'Forma Studio',
     role: 'Co-founder',
+    rating: 5,
   },
   {
     id: 't3',
@@ -27,5 +30,14 @@ export const testimonials: Testimonial[] = [
     name: 'Priya Rajan',
     company: 'Grove Collective',
     role: 'Head of Marketing',
+    rating: 5,
+  },
+  {
+    id: 't4',
+    quote: "From day one the team understood our brand voice. Our email sequences now convert at 3× industry average — the results speak for themselves.",
+    name: 'James Whitfield',
+    company: 'Arclight Ventures',
+    role: 'CEO',
+    rating: 5,
   },
 ];

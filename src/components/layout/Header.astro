@@ -35,8 +35,8 @@ const currentPath = Astro.url.pathname;
     <!-- CTA + Hamburger -->
     <div class="flex items-center gap-4">
       <div class="hidden lg:block">
-        <Button href="/contact" variant="primary">
-          Get a Quote
+        <Button href="/contact" variant="gradient" data-magnetic="true">
+          Let's Talk
         </Button>
       </div>
 
@@ -67,14 +67,14 @@ const currentPath = Astro.url.pathname;
     {navLinks.map(({ href, label }) => (
       <a
         href={href}
-        class="mobile-nav-link font-[var(--font-heading)] text-4xl font-bold text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors"
+        class="mobile-nav-link font-[var(--font-heading)] text-5xl font-bold text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors"
         data-cursor-hover
       >
         {label}
       </a>
     ))}
-    <Button href="/contact" variant="primary" class="mt-4">
-      Get a Quote
+    <Button href="/contact" variant="gradient" class="mt-4">
+      Let's Talk
     </Button>
   </nav>
 </div>
@@ -90,7 +90,7 @@ const currentPath = Astro.url.pathname;
 
   // Scroll state
   window.addEventListener('scroll', () => {
-    header.classList.toggle('scrolled', window.scrollY > 60);
+    header.classList.toggle('scrolled', window.scrollY > 80);
   }, { passive: true });
 
   function openOverlay() {
@@ -105,9 +105,18 @@ const currentPath = Astro.url.pathname;
   }
 
   function closeOverlay() {
-    overlay.classList.remove('open');
-    hamburger.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
+    gsap.to(mobileLinks, {
+      opacity: 0,
+      y: -10,
+      duration: 0.25,
+      stagger: 0.05,
+      ease: 'power2.in',
+      onComplete: () => {
+        overlay.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      },
+    });
   }
 
   hamburger.addEventListener('click', openOverlay);

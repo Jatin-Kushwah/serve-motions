@@ -5,26 +5,113 @@ import { testimonials } from '@/data/testimonials';
 <section class="py-28 px-6 bg-[var(--color-surface)]" data-animate>
   <div class="max-w-7xl mx-auto">
     <div class="mb-16">
-      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent-alt)] mb-4">What Clients Say</p>
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-4">· What Clients Say</p>
       <h2 class="font-[var(--font-heading)] text-4xl md:text-5xl font-bold text-[var(--color-text)] leading-tight max-w-md">
         Don't take our word for it.
       </h2>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      {testimonials.map((t) => (
-        <blockquote class="bg-[var(--color-bg)] border border-[var(--color-border)] rounded-2xl p-8 flex flex-col">
-          <span class="font-[var(--font-heading)] text-5xl font-extrabold text-[var(--color-accent)] leading-none mb-6" aria-hidden="true">&ldquo;</span>
-          <p class="text-[var(--color-text)] leading-relaxed flex-1 mb-8">{t.quote}</p>
-          <footer>
-            <hr class="border-[var(--color-border)] mb-5" />
-            <div>
-              <p class="font-semibold text-[var(--color-text)] text-sm">{t.name}</p>
-              <p class="text-xs text-[var(--color-text-muted)]">{t.role}, {t.company}</p>
+    <!-- Swiper container -->
+    <div class="swiper testimonials-swiper relative">
+      <div class="swiper-wrapper pb-12">
+        {testimonials.map((t) => {
+          const initial = t.name.charAt(0).toUpperCase();
+          return (
+            <div class="swiper-slide">
+              <div class="testimonial-card bg-[var(--color-bg)] border border-[var(--color-border)] rounded-2xl p-8 flex flex-col h-full transition-all duration-300">
+                <!-- Stars -->
+                <div class="flex items-center gap-1 mb-6">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <span class={i < t.rating ? 'text-amber-400' : 'text-[var(--color-border)]'} aria-hidden="true">★</span>
+                  ))}
+                </div>
+
+                <!-- Quote -->
+                <p class="text-[var(--color-text)] leading-relaxed flex-1 mb-8 text-[0.95rem]">{t.quote}</p>
+
+                <!-- Author -->
+                <footer>
+                  <hr class="border-[var(--color-border)] mb-5" />
+                  <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0" style="background: linear-gradient(135deg, #4F6EF7, #7C3AED);" aria-hidden="true">
+                      {initial}
+                    </div>
+                    <div>
+                      <p class="font-semibold text-[var(--color-text)] text-sm">{t.name}</p>
+                      <p class="text-xs text-[var(--color-text-muted)]">{t.role}, {t.company}</p>
+                    </div>
+                  </div>
+                </footer>
+              </div>
             </div>
-          </footer>
-        </blockquote>
-      ))}
+          );
+        })}
+      </div>
+
+      <!-- Navigation -->
+      <div class="flex items-center gap-4 mt-4">
+        <button class="swiper-btn-prev w-10 h-10 rounded-full flex items-center justify-center bg-[var(--color-surface-2)] text-[var(--color-accent)] border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-colors cursor-pointer" aria-label="Previous testimonial">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button class="swiper-btn-next w-10 h-10 rounded-full flex items-center justify-center bg-[var(--color-surface-2)] text-[var(--color-accent)] border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-colors cursor-pointer" aria-label="Next testimonial">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="swiper-pagination flex items-center gap-2 ml-2"></div>
+      </div>
     </div>
   </div>
 </section>
+
+<style>
+  .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    background: var(--color-border);
+    opacity: 1;
+    cursor: pointer;
+    transition: background 0.3s, width 0.3s;
+    display: inline-block;
+  }
+  .swiper-pagination-bullet-active {
+    background: var(--color-accent);
+    width: 24px;
+  }
+  .swiper-slide-active .testimonial-card {
+    border-left: 2px solid var(--color-accent);
+  }
+</style>
+
+<script>
+  import Swiper from 'swiper';
+  import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+  import 'swiper/css';
+  import 'swiper/css/navigation';
+  import 'swiper/css/pagination';
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  new Swiper('.testimonials-swiper', {
+    modules: [Navigation, Pagination, Autoplay],
+    slidesPerView: 1,
+    spaceBetween: 24,
+    loop: true,
+    autoplay: prefersReduced ? false : { delay: 4000, pauseOnMouseEnter: true },
+    navigation: {
+      nextEl: '.swiper-btn-next',
+      prevEl: '.swiper-btn-prev',
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    breakpoints: {
+      768: { slidesPerView: 2 },
+      1024: { slidesPerView: 3 },
+    },
+  });
+</script>
