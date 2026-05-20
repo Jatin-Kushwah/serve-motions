@@ -2,7 +2,7 @@
 import { testimonials } from '@/data/testimonials';
 ---
 
-<section class="py-28 px-6 bg-[var(--color-surface)]" data-animate>
+<section class="py-28 px-6 bg-[var(--color-surface)]">
   <div class="max-w-7xl mx-auto">
     <div class="mb-16">
       <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-4">· What Clients Say</p>
@@ -13,24 +13,25 @@ import { testimonials } from '@/data/testimonials';
 
     <!-- Swiper container -->
     <div class="swiper testimonials-swiper relative">
-      <div class="swiper-wrapper pb-12">
+      <div class="swiper-wrapper">
         {testimonials.map((t) => {
           const initial = t.name.charAt(0).toUpperCase();
           return (
             <div class="swiper-slide">
-              <div class="testimonial-card bg-[var(--color-bg)] border border-[var(--color-border)] rounded-2xl p-8 flex flex-col h-full transition-all duration-300">
+              <div class="testimonial-card relative bg-[var(--color-bg)] border border-[var(--color-border)] rounded-2xl p-10 flex flex-col h-full overflow-hidden">
+
                 <!-- Stars -->
-                <div class="flex items-center gap-1 mb-6">
+                <div class="t-stars flex items-center gap-1 mb-6 relative z-10">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <span class={i < t.rating ? 'text-amber-400' : 'text-[var(--color-border)]'} aria-hidden="true">★</span>
                   ))}
                 </div>
 
                 <!-- Quote -->
-                <p class="text-[var(--color-text)] leading-relaxed flex-1 mb-8 text-[0.95rem]">{t.quote}</p>
+                <p class="t-quote text-[var(--color-text)] leading-relaxed flex-1 mb-8 text-[1rem] relative z-10">{t.quote}</p>
 
                 <!-- Author -->
-                <footer>
+                <footer class="t-footer relative z-10">
                   <hr class="border-[var(--color-border)] mb-5" />
                   <div class="flex items-center gap-4">
                     <div class="w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0" style="background: linear-gradient(135deg, #4F6EF7, #7C3AED);" aria-hidden="true">
@@ -42,14 +43,15 @@ import { testimonials } from '@/data/testimonials';
                     </div>
                   </div>
                 </footer>
+
               </div>
             </div>
           );
         })}
       </div>
 
-      <!-- Navigation -->
-      <div class="flex items-center gap-4 mt-4">
+      <!-- Navigation + pagination -->
+      <div class="t-nav-row flex items-center gap-3 mt-6">
         <button class="swiper-btn-prev w-10 h-10 rounded-full flex items-center justify-center bg-[var(--color-surface-2)] text-[var(--color-accent)] border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-colors cursor-pointer" aria-label="Previous testimonial">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -60,58 +62,95 @@ import { testimonials } from '@/data/testimonials';
             <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
-        <div class="swiper-pagination flex items-center gap-2 ml-2"></div>
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  .swiper-pagination-bullet {
-    width: 8px;
-    height: 8px;
-    border-radius: 9999px;
-    background: var(--color-border);
-    opacity: 1;
-    cursor: pointer;
-    transition: background 0.3s, width 0.3s;
-    display: inline-block;
-  }
-  .swiper-pagination-bullet-active {
-    background: var(--color-accent);
-    width: 24px;
-  }
   .swiper-slide-active .testimonial-card {
     border-left: 2px solid var(--color-accent);
+    box-shadow: 0 -4px 40px rgba(79, 110, 247, 0.08), 0 24px 48px rgba(0, 0, 0, 0.45);
   }
 </style>
 
 <script>
+  import { gsap } from 'gsap';
   import Swiper from 'swiper';
-  import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+  import { Navigation, Autoplay, EffectFade } from 'swiper/modules';
   import 'swiper/css';
   import 'swiper/css/navigation';
-  import 'swiper/css/pagination';
+  import 'swiper/css/effect-fade';
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  new Swiper('.testimonials-swiper', {
-    modules: [Navigation, Pagination, Autoplay],
+  // Orchestrated entrance: card blooms in, then stars → quote → footer stagger.
+  function animateSlideIn(slide: Element) {
+    if (prefersReduced) return;
+
+    const card  = slide.querySelector<HTMLElement>('.testimonial-card');
+    const stars = slide.querySelector<HTMLElement>('.t-stars');
+    const quote = slide.querySelector<HTMLElement>('.t-quote');
+    const foot  = slide.querySelector<HTMLElement>('.t-footer');
+
+    const tl = gsap.timeline({ delay: 0.05 });
+
+    // Card itself: scale bloom + lift — gives the card physical "landing" weight
+    if (card) {
+      tl.fromTo(card,
+        { scale: 0.96, y: 16 },
+        { scale: 1, y: 0, duration: 0.55, ease: 'expo.out' },
+        0
+      );
+    }
+
+    // Stars snap in from left — quick, confident
+    if (stars) {
+      tl.fromTo(stars,
+        { opacity: 0, x: -18 },
+        { opacity: 1, x: 0, duration: 0.35, ease: 'power3.out' },
+        0.2
+      );
+    }
+
+    // Quote text rises and comes into focus — cinematic
+    if (quote) {
+      tl.fromTo(quote,
+        { opacity: 0, y: 22, filter: 'blur(6px)' },
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.6, ease: 'power3.out' },
+        0.3
+      );
+    }
+
+    // Author footer closes the sequence with a gentle rise
+    if (foot) {
+      tl.fromTo(foot,
+        { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, duration: 0.42, ease: 'power3.out' },
+        0.5
+      );
+    }
+  }
+
+  const swiper = new Swiper('.testimonials-swiper', {
+    modules: [Navigation, Autoplay, EffectFade],
     slidesPerView: 1,
     spaceBetween: 24,
+    effect: 'fade',
+    speed: 650,
     loop: true,
-    autoplay: prefersReduced ? false : { delay: 4000, pauseOnMouseEnter: true },
+    autoplay: prefersReduced ? false : { delay: 4000, pauseOnMouseEnter: true, disableOnInteraction: false },
     navigation: {
       nextEl: '.swiper-btn-next',
       prevEl: '.swiper-btn-prev',
     },
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-    },
-    breakpoints: {
-      768: { slidesPerView: 2 },
-      1024: { slidesPerView: 3 },
+    on: {
+      slideChange(s) {
+        animateSlideIn(s.slides[s.activeIndex]);
+      },
     },
   });
+
+  // Animate the first slide on page load
+  animateSlideIn(swiper.slides[swiper.activeIndex]);
 </script>

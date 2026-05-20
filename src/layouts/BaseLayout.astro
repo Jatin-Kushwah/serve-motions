@@ -102,7 +102,7 @@ const activeSchema = schema ?? defaultSchema;
 
     <script>
       import { initSplitting } from '@/scripts/splitting';
-      import { initScrollAnimations, initPageOverlay, initCounters } from '@/scripts/animation';
+      import { initScrollAnimations, initPageOverlay, initCounters, initHeadingReveal, initWorkCards, initServicesStagger, initClipReveal, initWhoWeAreParallax } from '@/scripts/animation';
       import '@/scripts/lenis';
       import { initCursor } from '@/scripts/cursor';
       import { initMagnetic } from '@/scripts/magnetic';
@@ -111,6 +111,11 @@ const activeSchema = schema ?? defaultSchema;
       initPageOverlay();
       initScrollAnimations();
       initCounters();
+      initHeadingReveal();
+      initWorkCards();
+      initServicesStagger();
+      initClipReveal();
+      initWhoWeAreParallax();
       initCursor();
       initMagnetic();
     </script>

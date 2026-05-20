@@ -1,0 +1,162 @@
+---
+---
+
+<section class="relative overflow-hidden bg-[var(--color-surface)]">
+  <!-- Full-width background image with Ken Burns scroll entrance -->
+  <div
+    data-video-bg
+    class="absolute inset-0 will-change-transform"
+    style="background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&auto=format&q=80'); background-size: cover; background-position: center;"
+    aria-hidden="true"
+  >
+    <!-- Brand colour overlay -->
+    <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(79,110,247,0.65), rgba(124,58,237,0.65));"></div>
+  </div>
+
+  <!-- Content overlay -->
+  <div class="relative z-10 flex flex-col items-center justify-center text-center px-6 py-32 md:py-40 min-h-[60vh]">
+    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-white/70 mb-5">· Our Process</p>
+    <h2 class="font-[var(--font-heading)] text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight max-w-3xl mb-12">
+      See How We Turn Ideas Into Results
+    </h2>
+
+    <!-- Play button with pulsing halo -->
+    <div class="relative flex items-center justify-center">
+      <!-- Halo rings — gated by prefers-reduced-motion -->
+      <div class="halo-inner absolute rounded-full" aria-hidden="true"></div>
+      <div class="halo-outer absolute rounded-full" aria-hidden="true"></div>
+
+      <button
+        id="play-btn"
+        class="relative z-10 flex items-center justify-center rounded-full text-white cursor-pointer"
+        style="width: 72px; height: 72px; background: linear-gradient(135deg, #4F6EF7, #7C3AED);"
+        aria-label="Play video"
+      >
+        <!-- Offset play icon slightly right for optical centering -->
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="white" aria-hidden="true" style="margin-left: 3px;">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox modal — visibility:hidden allows GSAP opacity transitions -->
+<div
+  id="video-modal"
+  class="fixed inset-0 z-50 flex items-center justify-center"
+  style="background: rgba(0,0,0,0.85); visibility: hidden; opacity: 0;"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Video player"
+>
+  <div style="width: min(90vw, 1000px); aspect-ratio: 16/9;">
+    <!-- iframe src is set dynamically on open to satisfy autoplay policy; cleared on close to stop audio -->
+    <!-- TODO: Replace dQw4w9WgXcQ with the actual client video ID before production deploy -->
+    <iframe
+      id="video-iframe"
+      class="w-full h-full rounded-xl"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen
+      title="Our Process video"
+    ></iframe>
+  </div>
+</div>
+
+<style>
+  @media (prefers-reduced-motion: no-preference) {
+    .halo-inner {
+      width: 88px;
+      height: 88px;
+      background: rgba(79, 110, 247, 0.25);
+      animation: pulse-halo 2s ease-out infinite;
+    }
+
+    .halo-outer {
+      width: 88px;
+      height: 88px;
+      border: 1px solid rgba(79, 110, 247, 0.4);
+      animation: pulse-halo 2s ease-out infinite 0.8s;
+    }
+
+    @keyframes pulse-halo {
+      0% { transform: scale(1); opacity: 0.5; }
+      100% { transform: scale(2.4); opacity: 0; }
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const mm = gsap.matchMedia();
+
+  // Ken Burns scroll entrance — zoom-in reads as invitation as the section enters view
+  mm.add('(prefers-reduced-motion: no-preference)', () => {
+    const bg = document.querySelector('[data-video-bg]') as HTMLElement | null;
+    if (!bg) return;
+
+    gsap.set(bg, { scale: 1.0 });
+
+    gsap.to(bg, {
+      scale: 1.05,
+      ease: 'none',
+      immediateRender: false,
+      scrollTrigger: {
+        trigger: bg.parentElement,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1.5,
+      },
+    });
+  });
+
+  // Lightbox modal
+  const modal = document.getElementById('video-modal') as HTMLElement;
+  const iframe = document.getElementById('video-iframe') as HTMLIFrameElement;
+  const playBtn = document.getElementById('play-btn') as HTMLButtonElement;
+
+  const VIDEO_ID = 'dQw4w9WgXcQ'; // TODO: Replace with actual client video ID before production deploy
+
+  let escHandler: ((e: KeyboardEvent) => void) | null = null;
+
+  function openModal() {
+    if (modal.style.visibility === 'visible') return;
+    iframe.src = `https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1`;
+    modal.style.visibility = 'visible';
+    gsap.fromTo(modal, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' });
+
+    escHandler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeModal();
+    };
+    document.addEventListener('keydown', escHandler);
+  }
+
+  function closeModal() {
+    gsap.to(modal, {
+      opacity: 0,
+      duration: 0.2,
+      ease: 'power2.in',
+      onComplete: () => {
+        modal.style.visibility = 'hidden';
+        iframe.src = '';
+      },
+    });
+
+    if (escHandler) {
+      document.removeEventListener('keydown', escHandler);
+      escHandler = null;
+    }
+  }
+
+  playBtn.addEventListener('click', openModal);
+
+  // Close on overlay click (not on iframe click)
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+</script>

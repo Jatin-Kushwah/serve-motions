@@ -3,9 +3,12 @@ import Button from '@/components/ui/Button.astro';
 ---
 
 <section class="py-28 px-6 bg-[var(--color-bg)] relative overflow-hidden" data-animate>
-  <!-- Radial blob background -->
-  <div class="absolute pointer-events-none" aria-hidden="true" style="right: -5%; top: 50%; transform: translateY(-50%); width: 50vw; height: 50vw; max-width: 600px; max-height: 600px; background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(79,110,247,0.08), transparent);"></div>
-  <div class="absolute pointer-events-none" aria-hidden="true" style="left: -5%; bottom: -10%; width: 30vw; height: 30vw; max-width: 400px; max-height: 400px; background: radial-gradient(ellipse 70% 70% at center, rgba(124,58,237,0.06), transparent);"></div>
+  <div class="absolute pointer-events-none" aria-hidden="true"
+       style="width: 900px; height: 900px; top: -414px; right: -414px;
+              background: radial-gradient(circle, transparent 0%, rgba(79,110,247,0.01) 3%, rgba(79,110,247,0.02) 6%, rgba(79,110,247,0.06) 9%, rgba(79,110,247,0.11) 11%, rgba(79,110,247,0.15) 12%, rgba(79,110,247,0.15) 20%, rgba(79,110,247,0.15) 15%, rgba(79,110,247,0.11) 30%, rgba(79,110,247,0.06) 40%, rgba(79,110,247,0.02) 50%, rgba(79,110,247,0.01) 5%, transparent 100%);"></div>
+  <div class="absolute pointer-events-none" aria-hidden="true"
+       style="width: 550px; height: 550px; bottom: -253px; left: -253px;
+              background: radial-gradient(circle, transparent 0%, rgba(124,58,237,0.01) 3%, rgba(124,58,237,0.02) 6%, rgba(124,58,237,0.06) 9%, rgba(124,58,237,0.11) 11%, rgba(124,58,237,0.15) 12%, rgba(124,58,237,0.15) 20%, rgba(124,58,237,0.15) 15%, rgba(124,58,237,0.11) 30%, rgba(124,58,237,0.06) 40%, rgba(124,58,237,0.02) 50%, rgba(124,58,237,0.01) 5%, transparent 100%);"></div>
 
   <div class="max-w-4xl mx-auto text-center relative z-10">
     <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6">· Ready to grow?</p>

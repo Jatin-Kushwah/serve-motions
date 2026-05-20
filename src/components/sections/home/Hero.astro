@@ -2,10 +2,9 @@
 import Button from '@/components/ui/Button.astro';
 ---
 
-<section class="min-h-screen flex flex-col justify-center pt-32 pb-20 px-6 relative overflow-hidden bg-[var(--color-bg)]">
-  <!-- Background orbs -->
-  <div class="hero-orb hero-orb-1 absolute pointer-events-none" aria-hidden="true" style="top: -10%; right: -5%; width: 60vw; height: 60vw; max-width: 700px; max-height: 700px; background: radial-gradient(ellipse 70% 70% at center, rgba(79,110,247,0.12), transparent); will-change: transform; z-index: 0;"></div>
-  <div class="hero-orb hero-orb-2 absolute pointer-events-none" aria-hidden="true" style="bottom: -5%; left: -10%; width: 40vw; height: 40vw; max-width: 500px; max-height: 500px; background: radial-gradient(ellipse 70% 70% at center, rgba(124,58,237,0.07), transparent); will-change: transform; z-index: 0;"></div>
+<section id="hero" class="min-h-screen flex flex-col justify-center pt-32 pb-20 px-6 relative overflow-hidden bg-[var(--color-bg)]">
+  <!-- Three.js canvas container — JS appends canvas here; hidden on mobile -->
+  <div id="hero-canvas-container" class="absolute inset-0 pointer-events-none z-0 hidden md:block" aria-hidden="true"></div>
 
   <div class="max-w-7xl mx-auto w-full relative z-10">
     <!-- Label -->
@@ -15,7 +14,7 @@ import Button from '@/components/ui/Button.astro';
       </span>
     </div>
 
-    <!-- Headline -->
+    <!-- Headline — word-clip entrance: each .word is an overflow:hidden container -->
     <div class="overflow-hidden mb-8">
       <h1
         class="font-[var(--font-heading)] text-[clamp(3.5rem,7vw,5.625rem)] lg:text-[clamp(5.625rem,9vw,7.5rem)] font-extrabold leading-[1.0] text-[var(--color-text)] max-w-4xl"
@@ -70,10 +69,19 @@ import Button from '@/components/ui/Button.astro';
 
   const mm = gsap.matchMedia();
 
-  mm.add('(prefers-reduced-motion: no-preference)', () => {
-    const tl = gsap.timeline({ delay: 0.7 });
+  mm.add('(prefers-reduced-motion: no-preference)', async () => {
+    const words = Array.from(document.querySelectorAll<HTMLElement>('[data-splitting] .word'));
 
-    const chars = document.querySelectorAll('[data-splitting] .char');
+    // Word-clip setup: wrap each .word in overflow:hidden clip box, then animate the .word itself
+    // 110% prevents subpixel letter-bottom peek-through on Safari
+    words.forEach((word) => {
+      const clipBox = document.createElement('span');
+      clipBox.style.cssText = 'display: inline-block; overflow: hidden; vertical-align: bottom;';
+      word.parentNode!.insertBefore(clipBox, word);
+      clipBox.appendChild(word);
+    });
+
+    const tl = gsap.timeline({ delay: 0.7 });
 
     tl.fromTo(
       '.hero-label',
@@ -81,9 +89,9 @@ import Button from '@/components/ui/Button.astro';
       { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }
     )
     .fromTo(
-      chars,
-      { y: 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out', stagger: 0.04 },
+      words,
+      { y: '110%' },
+      { y: '0%', duration: 0.85, ease: 'expo.out', stagger: 0.06, immediateRender: false },
       '-=0.2'
     )
     .fromTo(
@@ -93,17 +101,113 @@ import Button from '@/components/ui/Button.astro';
       '-=0.3'
     );
 
-    // Orb parallax
-    gsap.to('.hero-orb', {
-      y: -80,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: 'section',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true,
-      },
-    });
+    // Three.js WebGL canvas — lazy-loaded; mobile-guarded
+    if (window.matchMedia('(max-width: 767px)').matches) return;
+
+    try {
+      const THREE = await import('three');
+
+      const container = document.getElementById('hero-canvas-container');
+      if (!container) return;
+
+      // Renderer
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(container.offsetWidth, container.offsetHeight);
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.2;
+      container.appendChild(renderer.domElement);
+
+      // Scene + camera
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, container.offsetWidth / container.offsetHeight, 0.1, 100);
+      camera.position.set(0, 0, 3.5);
+
+      // Lights
+      const keyLight = new THREE.DirectionalLight(0x6B85F8, 1.8);
+      keyLight.position.set(3, 2, 2);
+      scene.add(keyLight);
+
+      const rimLight = new THREE.PointLight(0x9D55FF, 0.8, 20);
+      rimLight.position.set(-3, -1, -2);
+      scene.add(rimLight);
+
+      scene.add(new THREE.AmbientLight(0xffffff, 0.15));
+
+      // Mesh
+      const geometry = new THREE.TorusKnotGeometry(1, 0.3, 100, 16);
+      const material = new THREE.MeshStandardMaterial({
+        color: 0x4F6EF7,
+        emissive: 0x1A2880,
+        emissiveIntensity: 0.3,
+        metalness: 0.6,
+        roughness: 0.25,
+        transparent: true,
+        opacity: 1.0,
+      });
+      const mesh = new THREE.Mesh(geometry, material);
+      // Position mesh in the right side of the hero
+      mesh.position.set(2.5, 0, 0);
+      scene.add(mesh);
+
+      // Delta-time rotation — decoupled from frame rate
+      const clock = new THREE.Clock();
+
+      // Scroll exit via proxy — GSAP can't tween Vector3 or setScalar directly
+      const proxy = { progress: 0 };
+      gsap.to(proxy, {
+        progress: 1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1,
+        },
+        onUpdate: () => {
+          mesh.scale.setScalar(1 - proxy.progress * 0.5);
+          material.opacity = 1 - proxy.progress;
+        },
+      });
+
+      // Mouse parallax — overwrite:auto cancels in-flight tweens on rapid movement
+      document.getElementById('hero')?.addEventListener('mousemove', (e) => {
+        const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+        const normX = (e.clientX - rect.left) / rect.width - 0.5;
+        const normY = (e.clientY - rect.top) / rect.height - 0.5;
+        gsap.to(camera.position, {
+          x: normX * 0.12,
+          y: -normY * 0.08,
+          duration: 0.4,
+          ease: 'power1.out',
+          overwrite: 'auto',
+        });
+      });
+
+      // Resize handler
+      const onResize = () => {
+        renderer.setSize(container.offsetWidth, container.offsetHeight);
+        camera.aspect = container.offsetWidth / container.offsetHeight;
+        camera.updateProjectionMatrix();
+      };
+      window.addEventListener('resize', onResize);
+
+      // Animation loop
+      const animate = () => {
+        requestAnimationFrame(animate);
+        const delta = clock.getDelta();
+        mesh.rotation.x += 0.12 * delta;
+        mesh.rotation.y += 0.18 * delta;
+        renderer.render(scene, camera);
+      };
+      animate();
+
+      // Recalculate ScrollTrigger offsets after canvas injection
+      ScrollTrigger.refresh();
+
+    } catch {
+      // WebGL unavailable or Three.js failed — hero renders without canvas, no error surfaced
+    }
   });
 
   mm.add('(prefers-reduced-motion: reduce)', () => {

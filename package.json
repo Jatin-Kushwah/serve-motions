@@ -15,6 +15,7 @@
     "@astrojs/sitemap": "^3.7.2",
     "@lucide/astro": "^1.11.0",
     "@tailwindcss/vite": "^4.2.4",
+    "@types/three": "^0.184.1",
     "astro": "^6.1.9",
     "astro-google-fonts-optimizer": "^0.2.2",
     "astro-seo": "^1.1.0",
@@ -22,6 +23,7 @@
     "lenis": "^1.1.20",
     "splitting": "^1.0.6",
     "swiper": "^12.1.4",
-    "tailwindcss": "^4.2.4"
+    "tailwindcss": "^4.2.4",
+    "three": "^0.184.0"
   }
 }

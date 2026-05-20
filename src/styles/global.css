@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #0A0A0A;
-  --color-surface: #141414;
-  --color-surface-2: #1C1C1C;
+  --color-bg: #080C14;
+  --color-surface: #0D1220;
+  --color-surface-2: #121826;
   --color-text: #FFFFFF;
-  --color-text-muted: #9A9A9A;
+  --color-text-muted: #8892AA;
   --color-accent: #4F6EF7;
   --color-accent-alt: #7C3AED;
   --color-footer-bg: #050505;
@@ -34,6 +34,18 @@ body {
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(79, 110, 247, 0.10), transparent),
+    radial-gradient(ellipse 40% 50% at 20% 60%, rgba(124, 58, 237, 0.05), transparent);
 }
 
 /* Page load overlay */
@@ -135,7 +147,7 @@ body {
 header.scrolled {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  background: rgba(10, 10, 10, 0.85);
+  background: rgba(8, 12, 20, 0.85);
   border-bottom: 1px solid var(--color-border);
 }
 
@@ -161,7 +173,7 @@ header.scrolled {
 
 /* Service card hover */
 .service-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
   border: 1px solid var(--color-border);
 }
 
