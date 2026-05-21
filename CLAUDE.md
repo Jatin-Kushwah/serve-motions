@@ -59,6 +59,12 @@ must apply them. Never output generic UI. Always translate to a specific, premiu
 
 ---
 
+## Skill Behavior
+
+- When running `ce:brainstorm`, `ce:plan`, or `ce:work`, do **not** invoke the `review` skill at any point — it consumes too many tokens. Skip any built-in review step these skills would normally trigger.
+
+---
+
 ## Tech Conventions
 
 - Components live in `src/components/sections/home/` (home page sections)

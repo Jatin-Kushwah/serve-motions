@@ -3,8 +3,48 @@ import Button from '@/components/ui/Button.astro';
 ---
 
 <section id="hero" class="min-h-screen flex flex-col justify-center pt-32 pb-20 px-6 relative overflow-hidden bg-[var(--color-bg)]">
-  <!-- Three.js canvas container — JS appends canvas here; hidden on mobile -->
-  <div id="hero-canvas-container" class="absolute inset-0 pointer-events-none z-0 hidden md:block" aria-hidden="true"></div>
+  <!-- Hero image — mobile: full bleed background; desktop: right-side panel -->
+
+  <!-- Mobile full-bleed (hidden on md+) -->
+  <div class="absolute inset-0 md:hidden pointer-events-none overflow-hidden" aria-hidden="true">
+    <img
+      src="https://images.unsplash.com/photo-1773558057883-c15a220761ce?w=800&auto=format&q=75"
+      alt=""
+      class="w-full h-full object-cover object-center"
+      loading="eager"
+      decoding="async"
+      fetchpriority="high"
+    />
+    <!-- Heavy dark overlay so text stays readable on mobile -->
+    <div
+      class="absolute inset-0"
+      style="background: linear-gradient(to bottom, rgba(8,12,20,0.78) 0%, rgba(8,12,20,0.70) 50%, rgba(8,12,20,0.90) 100%);"
+    ></div>
+  </div>
+
+  <!-- Desktop right-panel (hidden below md) -->
+  <div class="absolute inset-0 hidden md:block pointer-events-none" aria-hidden="true">
+    <div class="absolute right-0 top-0 h-full w-[55%] overflow-hidden">
+      <img
+        src="https://images.unsplash.com/photo-1773558057883-c15a220761ce?w=1400&auto=format&q=80"
+        alt="Abstract digital blue network visualization"
+        class="w-full h-full object-cover object-center"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+      />
+      <!-- Left-to-right fade: page background → transparent -->
+      <div
+        class="absolute inset-0"
+        style="background: linear-gradient(to right, var(--color-bg) 0%, rgba(8,12,20,0.7) 30%, rgba(8,12,20,0.2) 60%, transparent 100%);"
+      ></div>
+      <!-- Bottom fade -->
+      <div
+        class="absolute inset-x-0 bottom-0 h-40"
+        style="background: linear-gradient(to top, var(--color-bg) 0%, transparent 100%);"
+      ></div>
+    </div>
+  </div>
 
   <div class="max-w-7xl mx-auto w-full relative z-10">
     <!-- Label -->
@@ -63,9 +103,6 @@ import Button from '@/components/ui/Button.astro';
 
 <script>
   import { gsap } from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-  gsap.registerPlugin(ScrollTrigger);
 
   const mm = gsap.matchMedia();
 
@@ -100,121 +137,6 @@ import Button from '@/components/ui/Button.astro';
       { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
       '-=0.3'
     );
-
-    // Three.js WebGL canvas — lazy-loaded; mobile-guarded
-    if (window.matchMedia('(max-width: 767px)').matches) return;
-
-    try {
-      const THREE = await import('three');
-
-      const container = document.getElementById('hero-canvas-container');
-      if (!container) return;
-
-      // Renderer
-      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.setSize(container.offsetWidth, container.offsetHeight);
-      renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.2;
-      container.appendChild(renderer.domElement);
-
-      // Scene + camera
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(75, container.offsetWidth / container.offsetHeight, 0.1, 100);
-      camera.position.set(0, 0, 3.5);
-
-      // Lights
-      const keyLight = new THREE.DirectionalLight(0xBBCCFF, 1.0);
-      keyLight.position.set(4, 3, 2);
-      scene.add(keyLight);
-
-      const rimLight = new THREE.DirectionalLight(0x8866CC, 0.7);
-      rimLight.position.set(-4, -1, -2);
-      scene.add(rimLight);
-
-      scene.add(new THREE.AmbientLight(0x5060A0, 0.5));
-
-      const orbitLight = new THREE.PointLight(0x6B5FCC, 1.6, 10);
-      scene.add(orbitLight);
-
-      const blueOrbit = new THREE.PointLight(0x4F6EF7, 1.0, 12);
-      scene.add(blueOrbit);
-
-      // Torus Knot
-      const geometry = new THREE.TorusKnotGeometry(1, 0.3, 128, 20);
-      const material = new THREE.MeshPhongMaterial({
-        color: 0x4060E8,
-        emissive: 0x1E1450,
-        specular: 0x5566AA,
-        shininess: 70,
-        transparent: true,
-        opacity: 1.0,
-      });
-      const mesh = new THREE.Mesh(geometry, material);
-      mesh.position.set(2.5, 0, 0);
-      scene.add(mesh);
-
-      mesh.add(new THREE.Mesh(
-        geometry,
-        new THREE.MeshBasicMaterial({ color: 0x7777BB, wireframe: true, transparent: true, opacity: 0.10 })
-      ));
-
-      const clock = new THREE.Clock();
-      let prevTime = 0;
-
-      const proxy = { progress: 0 };
-      gsap.to(proxy, {
-        progress: 1, ease: 'none',
-        scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1 },
-        onUpdate: () => {
-          mesh.scale.setScalar(1 - proxy.progress * 0.5);
-          material.opacity = 1 - proxy.progress;
-        },
-      });
-
-      document.getElementById('hero')?.addEventListener('mousemove', (e) => {
-        const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-        const normX = (e.clientX - rect.left) / rect.width - 0.5;
-        const normY = (e.clientY - rect.top) / rect.height - 0.5;
-        gsap.to(camera.position, { x: normX * 0.12, y: -normY * 0.08, duration: 0.4, ease: 'power1.out', overwrite: 'auto' });
-      });
-
-      const onResize = () => {
-        renderer.setSize(container.offsetWidth, container.offsetHeight);
-        camera.aspect = container.offsetWidth / container.offsetHeight;
-        camera.updateProjectionMatrix();
-      };
-      window.addEventListener('resize', onResize);
-
-      const animate = () => {
-        requestAnimationFrame(animate);
-        const elapsed = clock.getElapsedTime();
-        const delta = elapsed - prevTime;
-        prevTime = elapsed;
-
-        orbitLight.position.set(
-          mesh.position.x + Math.cos(elapsed * 0.5) * 2.2,
-          Math.sin(elapsed * 0.7) * 1.8,
-          Math.sin(elapsed * 0.35) * 2.0
-        );
-        blueOrbit.position.set(
-          mesh.position.x + Math.cos(elapsed * 0.5 + Math.PI) * 2.0,
-          Math.sin(elapsed * 0.7 + Math.PI) * 1.4,
-          Math.sin(elapsed * 0.35 + Math.PI) * 1.8
-        );
-
-        mesh.rotation.x += 0.12 * delta;
-        mesh.rotation.y += 0.18 * delta;
-        renderer.render(scene, camera);
-      };
-      animate();
-
-      // Recalculate ScrollTrigger offsets after canvas injection
-      ScrollTrigger.refresh();
-
-    } catch {
-      // WebGL unavailable or Three.js failed — hero renders without canvas, no error surfaced
-    }
   });
 
   mm.add('(prefers-reduced-motion: reduce)', () => {

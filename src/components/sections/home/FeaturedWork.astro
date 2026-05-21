@@ -51,10 +51,29 @@ import Button from '@/components/ui/Button.astro';
         <article class="work-card rounded-2xl overflow-hidden group relative cursor-pointer" data-cursor-hover>
           <div
             class="aspect-[4/3] flex flex-col justify-end p-8 relative"
-            style={`background: ${item.bgGradient};`}
+            style={item.image ? undefined : `background: ${item.bgGradient};`}
             role="img"
             aria-label={`${item.client} case study`}
           >
+            <!-- Background photo -->
+            {item.image && (
+              <>
+                <img
+                  src={item.image}
+                  alt=""
+                  class="absolute inset-0 w-full h-full object-cover object-center"
+                  loading="lazy"
+                  decoding="async"
+                  aria-hidden="true"
+                />
+                <div
+                  class="absolute inset-0 pointer-events-none"
+                  style="background: linear-gradient(to top, rgba(11,11,26,0.92) 0%, rgba(11,11,26,0.4) 50%, transparent 100%);"
+                  aria-hidden="true"
+                ></div>
+              </>
+            )}
+
             <!-- Overlay -->
             <div class="work-card-overlay rounded-none">
               <span class="text-sm font-semibold text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 tracking-wide">

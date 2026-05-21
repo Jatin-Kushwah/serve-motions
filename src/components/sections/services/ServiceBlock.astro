@@ -24,53 +24,6 @@ const num = String(index + 1).padStart(2, '0');
       style={`background: var(--color-surface-2); background-image: ${service.bgGradient.replace('linear-gradient', 'linear-gradient')};`}
     >
 
-      {service.id === 'seo' && (
-        <div class="absolute inset-0 flex flex-col justify-center gap-2 lg:gap-3 p-4 lg:p-7">
-          <!-- Search bar -->
-          <div class="flex items-center gap-2.5 bg-[var(--color-surface)] rounded-xl px-4 py-3 border border-[var(--color-border)]">
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
-              <circle cx="5.5" cy="5.5" r="4" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
-              <path d="M9 9l2.5 2.5" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
-            <span class="text-xs text-[var(--color-text-muted)]">best digital marketing agency</span>
-          </div>
-
-          <!-- Results -->
-          <div class="space-y-2">
-            <!-- #1 — client result, highlighted -->
-            <div class="bg-[var(--color-surface)] rounded-xl px-4 py-3 border-l-[3px] border-emerald-500 flex items-start gap-3 border border-[var(--color-border)]">
-              <span class="shrink-0 mt-0.5 w-5 h-5 rounded-full bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center">1</span>
-              <div class="min-w-0">
-                <p class="text-[11px] font-semibold text-[var(--color-accent)] truncate">yourclient.com › services</p>
-                <p class="text-xs font-bold text-[var(--color-text)] truncate">Digital Marketing — Results That Scale</p>
-                <p class="text-[10px] text-[var(--color-text-muted)] truncate mt-0.5">Award-winning campaigns. Measurable growth across every channel...</p>
-              </div>
-            </div>
-            <!-- #2 — faded competitor -->
-            <div class="bg-[rgba(255,255,255,0.03)] rounded-xl px-4 py-3 flex items-start gap-3 opacity-50">
-              <span class="shrink-0 mt-0.5 w-5 h-5 rounded-full border border-[var(--color-border)] text-[var(--color-text-muted)] text-[10px] font-medium flex items-center justify-center">2</span>
-              <div class="flex-1 space-y-1.5">
-                <div class="h-2 bg-[rgba(255,255,255,0.06)] rounded-full w-2/3"></div>
-                <div class="h-2 bg-[rgba(255,255,255,0.04)] rounded-full w-full"></div>
-                <div class="h-2 bg-[rgba(255,255,255,0.04)] rounded-full w-4/5"></div>
-              </div>
-            </div>
-            <!-- #3 — more faded -->
-            <div class="bg-[rgba(255,255,255,0.02)] rounded-xl px-4 py-3 flex items-start gap-3 opacity-30">
-              <span class="shrink-0 mt-0.5 w-5 h-5 rounded-full border border-[var(--color-border)] text-[var(--color-text-muted)] text-[10px] font-medium flex items-center justify-center">3</span>
-              <div class="flex-1 space-y-1.5">
-                <div class="h-2 bg-[rgba(255,255,255,0.06)] rounded-full w-1/2"></div>
-                <div class="h-2 bg-[rgba(255,255,255,0.04)] rounded-full w-3/4"></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="flex justify-end">
-            <span class="text-[11px] font-semibold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">↑ +312% organic traffic</span>
-          </div>
-        </div>
-      )}
-
       {service.id === 'social' && (
         <div class="absolute inset-0 p-3 lg:p-6 grid grid-cols-3 grid-rows-3 gap-2">
           <div class="col-span-2 row-span-2 rounded-xl bg-[rgba(139,92,246,0.15)] flex items-center justify-center text-2xl font-bold text-violet-400 font-[var(--font-heading)] border border-[rgba(139,92,246,0.2)]">4.8×</div>

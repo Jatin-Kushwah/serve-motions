@@ -27,30 +27,65 @@ const icons: Record<string, any> = { TrendingUp, Share2, Target, Palette, Mail, 
       {services.map((service, i) => {
         const Icon = icons[service.icon];
         const num = String(i + 1).padStart(2, '0');
+        const hasImage = Boolean(service.image);
         return (
-          <article class="service-card group relative border border-[var(--color-border)] rounded-2xl p-8 overflow-hidden cursor-pointer" data-cursor-hover>
-            <!-- Decorative number -->
-            <span class="absolute top-4 right-6 font-[var(--font-heading)] text-7xl font-extrabold text-[var(--color-border)] select-none leading-none transition-colors duration-300 group-hover:text-[rgba(79,110,247,0.08)]" aria-hidden="true">
-              {num}
-            </span>
+          <article
+            class="service-card group relative border border-[var(--color-border)] rounded-2xl overflow-hidden cursor-pointer min-h-[340px] flex flex-col"
+            data-cursor-hover
+          >
+            <!-- Background photo + dark vignette overlay -->
+            {hasImage && (
+              <>
+                <img
+                  src={service.image}
+                  alt=""
+                  class="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out will-change-transform group-hover:scale-[1.04]"
+                  loading="lazy"
+                  decoding="async"
+                  aria-hidden="true"
+                />
+                <div
+                  class="absolute inset-0 pointer-events-none"
+                  style="background: linear-gradient(to bottom, rgba(0,33,200,0.28) 0%, rgba(8,12,20,0.78) 52%, rgba(8,12,20,0.96) 100%);"
+                  aria-hidden="true"
+                ></div>
+              </>
+            )}
 
-            <!-- Icon with 3D flip wrapper -->
-            <div class="icon-flip-parent mb-6">
-              <div class="icon-wrapper relative w-12 h-12 rounded-xl bg-[var(--color-surface)] flex items-center justify-center text-[var(--color-text-muted)] transition-colors duration-300 group-hover:bg-[var(--color-accent)] group-hover:text-[var(--color-text)]">
-                <Icon size={22} />
+            <!-- Card content — floats above image layers -->
+            <div class="relative z-10 flex flex-col flex-1 p-8">
+
+              <!-- Top row: icon (left) + decorative number (right) -->
+              <div class="flex items-start justify-between mb-auto pb-10">
+                <div class="icon-flip-parent">
+                  <div class={`icon-wrapper w-11 h-11 rounded-xl flex items-center justify-center transition-colors duration-300 ${hasImage ? 'bg-white/10 text-white/80 group-hover:bg-[var(--color-accent)] group-hover:text-white' : 'bg-[var(--color-bg)] text-[var(--color-text-muted)] group-hover:bg-[var(--color-accent)] group-hover:text-[var(--color-text)]'}`}>
+                    <Icon size={20} />
+                  </div>
+                </div>
+                <span
+                  class={`font-[var(--font-heading)] text-6xl font-extrabold select-none leading-none transition-colors duration-500 ${hasImage ? 'text-white/25 group-hover:text-white/40' : 'text-[var(--color-border)] group-hover:text-[rgba(79,110,247,0.18)]'}`}
+                  aria-hidden="true"
+                >
+                  {num}
+                </span>
               </div>
-            </div>
 
-            <!-- Content -->
-            <h3 class="font-[var(--font-heading)] text-lg font-bold text-[var(--color-text)] mb-3 leading-snug">{service.name}</h3>
-            <p class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-6">{service.description}</p>
+              <!-- Bottom: title, description, CTA -->
+              <div>
+                <h3 class={`font-[var(--font-heading)] text-lg font-bold mb-2 leading-snug ${hasImage ? 'text-white' : 'text-[var(--color-text)]'}`}>
+                  {service.name}
+                </h3>
+                <p class={`text-sm leading-relaxed mb-5 ${hasImage ? 'text-white/60' : 'text-[var(--color-text-muted)]'}`}>
+                  {service.description}
+                </p>
+                <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-accent)] opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
+                  <span>Learn more</span>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path d="M2.5 7h9M8 3.5l3.5 3.5L8 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
 
-            <!-- Arrow link -->
-            <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-accent)] opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
-              <span>Learn more</span>
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <path d="M2.5 7h9M8 3.5l3.5 3.5L8 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
             </div>
           </article>
         );
@@ -61,16 +96,15 @@ const icons: Record<string, any> = { TrendingUp, Share2, Target, Palette, Mail, 
 
 <style>
   .service-card {
-    background-color: rgba(79, 110, 247, 0.11);
-    box-shadow: inset 0 1px 0 rgba(79, 110, 247, 0.18);
+    background-color: var(--color-bg);
+    box-shadow: inset 0 1px 0 rgba(79, 110, 247, 0.15);
   }
 
   .service-card:hover {
-    background-color: rgba(79, 110, 247, 0.18);
-    box-shadow: inset 0 1px 0 rgba(79, 110, 247, 0.3);
+    box-shadow: inset 0 1px 0 rgba(79, 110, 247, 0.28);
   }
 
-  /* 3D icon flip — CSS-only, no GSAP to avoid conflict with card transition */
+  /* 3D icon flip — CSS-only */
   .icon-flip-parent {
     perspective: 1200px;
   }

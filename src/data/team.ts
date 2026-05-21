@@ -31,7 +31,7 @@ export const team: TeamMember[] = [
   {
     id: 'tm4',
     name: 'Marcus Webb',
-    role: 'SEO & Content Lead',
+    role: 'Content & Growth Lead',
     initials: 'MW',
     bg: '#1a1a3e',
   },
