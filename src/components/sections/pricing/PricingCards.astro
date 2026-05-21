@@ -1,0 +1,231 @@
+---
+import { plans } from '@/data/pricing';
+import Button from '@/components/ui/Button.astro';
+---
+
+<section class="pt-4 pb-24 px-6 bg-[var(--color-bg)]" data-period="monthly" id="pricing-section">
+  <div class="max-w-7xl mx-auto">
+
+    <!-- Billing toggle -->
+    <div class="flex justify-center mb-14">
+      <div class="flex items-center gap-1 p-1 rounded-full bg-[var(--color-surface)] border border-[var(--color-border)]">
+        <button
+          class="toggle-btn px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer"
+          data-toggle="monthly"
+          aria-pressed="true"
+        >
+          Monthly
+        </button>
+        <button
+          class="toggle-btn px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer"
+          data-toggle="annual"
+          aria-pressed="false"
+        >
+          Annual
+          <span class="ml-1 text-xs font-bold text-[var(--color-accent)]">–20%</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Cards grid — data-animate triggers initScrollAnimations stagger on direct children -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch" data-animate>
+
+      {plans.map((plan) => {
+        const isFeatured = plan.featured;
+
+        return isFeatured ? (
+          <!-- Pro card: gradient-border wrapper -->
+          <div
+            class="relative lg:scale-[1.03] lg:-my-2"
+            style="background: linear-gradient(135deg, #4F6EF7, #7C3AED); padding: 1px; border-radius: var(--radius-xl); box-shadow: 0 0 48px rgba(79, 110, 247, 0.22);"
+          >
+            <!-- Most Popular badge -->
+            <div class="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
+              <span
+                class="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest text-white"
+                style="background: linear-gradient(135deg, #4F6EF7, #7C3AED);"
+              >
+                Most Popular
+              </span>
+            </div>
+
+            <!-- Inner card -->
+            <div
+              class="flex flex-col h-full p-8 pt-10"
+              style="background: var(--color-surface); border-radius: calc(var(--radius-xl) - 1px);"
+            >
+              <div class="mb-8">
+                <p class="font-[var(--font-heading)] text-xl font-bold text-[var(--color-text)] mb-2">{plan.name}</p>
+                <p class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-6">{plan.description}</p>
+                <div class="flex items-end gap-1">
+                  <span
+                    class="price-display font-[var(--font-heading)] text-5xl font-extrabold text-[var(--color-text)] leading-none transition-opacity duration-200"
+                    data-monthly={plan.monthlyPrice}
+                    data-annual={plan.annualPrice}
+                  >
+                    {plan.monthlyPrice}
+                  </span>
+                  <span class="text-[var(--color-text-muted)] text-sm mb-1">/ mo</span>
+                </div>
+                <p
+                  class="annual-label text-xs text-[var(--color-text-muted)] mt-1 hidden"
+                  data-annual-label={`${plan.annualPrice} × 12 billed annually`}
+                >
+                  {plan.annualPrice} × 12 billed annually
+                </p>
+              </div>
+
+              <!-- Feature list -->
+              <ul class="space-y-3 mb-8 flex-1">
+                {plan.features.map((feature) => (
+                  <li class="flex items-start gap-3">
+                    {feature.value !== null ? (
+                      <>
+                        <svg class="shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                          <circle cx="8" cy="8" r="7" fill="rgba(79,110,247,0.15)"/>
+                          <path d="M5 8l2 2 4-4" stroke="#4F6EF7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="text-sm text-[var(--color-text)]">
+                          <span class="text-[var(--color-text-muted)] mr-1">{feature.label}:</span>
+                          {feature.value}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span class="shrink-0 mt-0.5 w-4 h-4 flex items-center justify-center text-[var(--color-text-muted)] text-base leading-none select-none" aria-hidden="true">—</span>
+                        <span class="text-sm text-[var(--color-text-muted)] line-through">{feature.label}</span>
+                      </>
+                    )}
+                  </li>
+                ))}
+              </ul>
+
+              <Button href={plan.ctaHref} variant="gradient" class="w-full justify-center">
+                {plan.ctaLabel}
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <!-- Basic / Agency card -->
+          <div
+            class="flex flex-col p-8 rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[rgba(79,110,247,0.3)] transition-colors duration-300"
+          >
+            <div class="mb-8">
+              <p class="font-[var(--font-heading)] text-xl font-bold text-[var(--color-text)] mb-2">{plan.name}</p>
+              <p class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-6">{plan.description}</p>
+              <div class="flex items-end gap-1">
+                <span
+                  class="price-display font-[var(--font-heading)] text-5xl font-extrabold text-[var(--color-text)] leading-none transition-opacity duration-200"
+                  data-monthly={plan.monthlyPrice}
+                  data-annual={plan.annualPrice}
+                >
+                  {plan.monthlyPrice}
+                </span>
+                <span class="text-[var(--color-text-muted)] text-sm mb-1">/ mo</span>
+              </div>
+              <p
+                class="annual-label text-xs text-[var(--color-text-muted)] mt-1 hidden"
+                data-annual-label={`${plan.annualPrice} × 12 billed annually`}
+              >
+                {plan.annualPrice} × 12 billed annually
+              </p>
+            </div>
+
+            <!-- Feature list -->
+            <ul class="space-y-3 mb-8 flex-1">
+              {plan.features.map((feature) => (
+                <li class="flex items-start gap-3">
+                  {feature.value !== null ? (
+                    <>
+                      <svg class="shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <circle cx="8" cy="8" r="7" fill="rgba(79,110,247,0.12)"/>
+                        <path d="M5 8l2 2 4-4" stroke="#4F6EF7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      <span class="text-sm text-[var(--color-text)]">
+                        <span class="text-[var(--color-text-muted)] mr-1">{feature.label}:</span>
+                        {feature.value}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span class="shrink-0 mt-0.5 w-4 h-4 flex items-center justify-center text-[var(--color-text-muted)] text-base leading-none select-none" aria-hidden="true">—</span>
+                      <span class="text-sm text-[var(--color-text-muted)] line-through">{feature.label}</span>
+                    </>
+                  )}
+                </li>
+              ))}
+            </ul>
+
+            <Button href={plan.ctaHref} variant="outline" class="w-full justify-center">
+              {plan.ctaLabel}
+            </Button>
+          </div>
+        );
+      })}
+
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+
+  const section = document.getElementById('pricing-section') as HTMLElement;
+  const toggleBtns = section.querySelectorAll<HTMLButtonElement>('.toggle-btn');
+  const priceDisplays = section.querySelectorAll<HTMLElement>('.price-display');
+  const annualLabels = section.querySelectorAll<HTMLElement>('.annual-label');
+
+  const mm = gsap.matchMedia();
+
+  function updateToggleUI(period: string) {
+    toggleBtns.forEach((btn) => {
+      const isActive = btn.dataset.toggle === period;
+      btn.setAttribute('aria-pressed', String(isActive));
+      if (isActive) {
+        btn.style.background = 'var(--color-text)';
+        btn.style.color = 'var(--color-bg)';
+      } else {
+        btn.style.background = 'transparent';
+        btn.style.color = 'var(--color-text-muted)';
+      }
+    });
+
+    annualLabels.forEach((el) => {
+      el.classList.toggle('hidden', period !== 'annual');
+    });
+  }
+
+  function swapPrices(period: string) {
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      gsap.to(priceDisplays, {
+        opacity: 0,
+        duration: 0.15,
+        onComplete: () => {
+          priceDisplays.forEach((el) => {
+            el.textContent = (el.dataset as Record<string, string>)[period] ?? el.textContent;
+          });
+          gsap.to(priceDisplays, { opacity: 1, duration: 0.2 });
+        },
+      });
+    });
+
+    mm.add('(prefers-reduced-motion: reduce)', () => {
+      priceDisplays.forEach((el) => {
+        el.textContent = (el.dataset as Record<string, string>)[period] ?? el.textContent;
+      });
+    });
+  }
+
+  toggleBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const period = btn.dataset.toggle as string;
+      if (section.dataset.period === period) return;
+      section.dataset.period = period;
+      updateToggleUI(period);
+      swapPrices(period);
+    });
+  });
+
+  // Set initial active state
+  updateToggleUI('monthly');
+</script>

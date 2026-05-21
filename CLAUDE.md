@@ -62,6 +62,7 @@ must apply them. Never output generic UI. Always translate to a specific, premiu
 ## Skill Behavior
 
 - When running `ce:brainstorm`, `ce:plan`, or `ce:work`, do **not** invoke the `review` skill at any point — it consumes too many tokens. Skip any built-in review step these skills would normally trigger.
+- For any UI design or frontend implementation work — including when using `ce:brainstorm`, `ce:plan`, `ce:work`, or `frontend-design` — **read and apply `.claude/skills/premium-motion-ui/SKILL.md`** before making any design decisions. This skill defines the design bar for this project. Never skip it for UI work.
 
 ---
 

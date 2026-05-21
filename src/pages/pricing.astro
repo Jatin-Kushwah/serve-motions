@@ -1,0 +1,42 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PricingCards from '@/components/sections/pricing/PricingCards.astro';
+import CompareTable from '@/components/sections/pricing/CompareTable.astro';
+import PricingFAQ from '@/components/sections/pricing/PricingFAQ.astro';
+import CTABand from '@/components/sections/home/CTABand.astro';
+---
+
+<BaseLayout
+  title="Pricing"
+  description="Transparent monthly retainer plans for social media, paid advertising, email marketing, and more. Find the right plan for your business."
+>
+  <!-- Compact pricing hero — minimal vertical footprint so cards land above the fold -->
+  <section class="pt-36 pb-8 px-6 bg-[var(--color-bg)] relative overflow-hidden text-center">
+    <!-- Ambient glow -->
+    <div
+      class="absolute pointer-events-none"
+      aria-hidden="true"
+      style="top: -30%; left: 50%; transform: translateX(-50%); width: 700px; height: 420px; background: radial-gradient(ellipse 65% 65% at 50% 30%, rgba(79,110,247,0.11), transparent);"
+    ></div>
+
+    <div class="max-w-3xl mx-auto relative z-10">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-5">· Pricing</p>
+
+      <h1 class="font-[var(--font-heading)] text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.08] text-[var(--color-text)] mb-5">
+        Plans built for<br>
+        <span style="background: linear-gradient(135deg, #4F6EF7, #7C3AED); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+          real growth.
+        </span>
+      </h1>
+
+      <p class="text-base md:text-lg text-[var(--color-text-muted)] leading-relaxed max-w-xl mx-auto">
+        No hidden fees. No long-term lock-in. Just a focused team and measurable results from day one.
+      </p>
+    </div>
+  </section>
+
+  <PricingCards />
+  <CompareTable />
+  <PricingFAQ />
+  <CTABand />
+</BaseLayout>
