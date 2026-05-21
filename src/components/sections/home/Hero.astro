@@ -37,9 +37,9 @@ import Button from '@/components/ui/Button.astro';
     </div>
   </div>
 
-  <!-- Circular text badge (desktop only) -->
-  <div class="absolute top-32 right-12 hidden lg:flex items-center justify-center" aria-hidden="true" style="width: 150px; height: 150px;">
-    <svg viewBox="0 0 150 150" width="150" height="150" class="shape-rotate absolute inset-0">
+  <!-- Circular text badge -->
+  <div class="absolute top-32 right-4 sm:right-8 lg:right-12 flex items-center justify-center w-[90px] h-[90px] sm:w-[110px] sm:h-[110px] lg:w-[150px] lg:h-[150px]" aria-hidden="true">
+    <svg viewBox="0 0 150 150" width="100%" height="100%" class="shape-rotate absolute inset-0">
       <defs>
         <path id="hero-circle-path" d="M 75,75 m -55,0 a 55,55 0 1,1 110,0 a 55,55 0 1,1 -110,0" />
       </defs>
@@ -47,8 +47,8 @@ import Button from '@/components/ui/Button.astro';
         <textPath href="#hero-circle-path">SERVE MOTIONS · DIGITAL AGENCY · </textPath>
       </text>
     </svg>
-    <div class="absolute z-10 w-8 h-8 rounded-full flex items-center justify-center" style="background: linear-gradient(135deg, #4F6EF7, #7C3AED);">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <div class="absolute z-10 w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 rounded-full flex items-center justify-center" style="background: linear-gradient(135deg, #4F6EF7, #7C3AED);">
+      <svg class="w-[8px] h-[8px] sm:w-[10px] sm:h-[10px] lg:w-[14px] lg:h-[14px]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="white" stroke="white" stroke-width="1" stroke-linejoin="round"/>
       </svg>
     </div>
@@ -124,67 +124,61 @@ import Button from '@/components/ui/Button.astro';
       camera.position.set(0, 0, 3.5);
 
       // Lights
-      const keyLight = new THREE.DirectionalLight(0x6B85F8, 1.8);
-      keyLight.position.set(3, 2, 2);
+      const keyLight = new THREE.DirectionalLight(0xBBCCFF, 1.0);
+      keyLight.position.set(4, 3, 2);
       scene.add(keyLight);
 
-      const rimLight = new THREE.PointLight(0x9D55FF, 0.8, 20);
-      rimLight.position.set(-3, -1, -2);
+      const rimLight = new THREE.DirectionalLight(0x8866CC, 0.7);
+      rimLight.position.set(-4, -1, -2);
       scene.add(rimLight);
 
-      scene.add(new THREE.AmbientLight(0xffffff, 0.15));
+      scene.add(new THREE.AmbientLight(0x5060A0, 0.5));
 
-      // Mesh
-      const geometry = new THREE.TorusKnotGeometry(1, 0.3, 100, 16);
-      const material = new THREE.MeshStandardMaterial({
-        color: 0x4F6EF7,
-        emissive: 0x1A2880,
-        emissiveIntensity: 0.3,
-        metalness: 0.6,
-        roughness: 0.25,
+      const orbitLight = new THREE.PointLight(0x6B5FCC, 1.6, 10);
+      scene.add(orbitLight);
+
+      const blueOrbit = new THREE.PointLight(0x4F6EF7, 1.0, 12);
+      scene.add(blueOrbit);
+
+      // Torus Knot
+      const geometry = new THREE.TorusKnotGeometry(1, 0.3, 128, 20);
+      const material = new THREE.MeshPhongMaterial({
+        color: 0x4060E8,
+        emissive: 0x1E1450,
+        specular: 0x5566AA,
+        shininess: 70,
         transparent: true,
         opacity: 1.0,
       });
       const mesh = new THREE.Mesh(geometry, material);
-      // Position mesh in the right side of the hero
       mesh.position.set(2.5, 0, 0);
       scene.add(mesh);
 
-      // Delta-time rotation — decoupled from frame rate
-      const clock = new THREE.Clock();
+      mesh.add(new THREE.Mesh(
+        geometry,
+        new THREE.MeshBasicMaterial({ color: 0x7777BB, wireframe: true, transparent: true, opacity: 0.10 })
+      ));
 
-      // Scroll exit via proxy — GSAP can't tween Vector3 or setScalar directly
+      const clock = new THREE.Clock();
+      let prevTime = 0;
+
       const proxy = { progress: 0 };
       gsap.to(proxy, {
-        progress: 1,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '#hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1,
-        },
+        progress: 1, ease: 'none',
+        scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1 },
         onUpdate: () => {
           mesh.scale.setScalar(1 - proxy.progress * 0.5);
           material.opacity = 1 - proxy.progress;
         },
       });
 
-      // Mouse parallax — overwrite:auto cancels in-flight tweens on rapid movement
       document.getElementById('hero')?.addEventListener('mousemove', (e) => {
         const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
         const normX = (e.clientX - rect.left) / rect.width - 0.5;
         const normY = (e.clientY - rect.top) / rect.height - 0.5;
-        gsap.to(camera.position, {
-          x: normX * 0.12,
-          y: -normY * 0.08,
-          duration: 0.4,
-          ease: 'power1.out',
-          overwrite: 'auto',
-        });
+        gsap.to(camera.position, { x: normX * 0.12, y: -normY * 0.08, duration: 0.4, ease: 'power1.out', overwrite: 'auto' });
       });
 
-      // Resize handler
       const onResize = () => {
         renderer.setSize(container.offsetWidth, container.offsetHeight);
         camera.aspect = container.offsetWidth / container.offsetHeight;
@@ -192,10 +186,23 @@ import Button from '@/components/ui/Button.astro';
       };
       window.addEventListener('resize', onResize);
 
-      // Animation loop
       const animate = () => {
         requestAnimationFrame(animate);
-        const delta = clock.getDelta();
+        const elapsed = clock.getElapsedTime();
+        const delta = elapsed - prevTime;
+        prevTime = elapsed;
+
+        orbitLight.position.set(
+          mesh.position.x + Math.cos(elapsed * 0.5) * 2.2,
+          Math.sin(elapsed * 0.7) * 1.8,
+          Math.sin(elapsed * 0.35) * 2.0
+        );
+        blueOrbit.position.set(
+          mesh.position.x + Math.cos(elapsed * 0.5 + Math.PI) * 2.0,
+          Math.sin(elapsed * 0.7 + Math.PI) * 1.4,
+          Math.sin(elapsed * 0.35 + Math.PI) * 1.8
+        );
+
         mesh.rotation.x += 0.12 * delta;
         mesh.rotation.y += 0.18 * delta;
         renderer.render(scene, camera);

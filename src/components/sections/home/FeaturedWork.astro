@@ -3,13 +3,32 @@ import { work } from '@/data/work';
 import Button from '@/components/ui/Button.astro';
 ---
 
+<style>
+  .glow-fw-violet {
+    width: 1000px; height: 1000px;
+    top: -460px; right: -460px;
+  }
+  .glow-fw-blue {
+    width: 600px; height: 600px;
+    top: 15%; left: -270px;
+  }
+  @media (max-width: 767px) {
+    .glow-fw-violet {
+      width: 550px; height: 550px;
+      top: -240px; right: -240px;
+    }
+    .glow-fw-blue {
+      width: 300px; height:300px;
+      top: 55%; left: -126px;
+    }
+  }
+</style>
+
 <section class="py-28 px-6 bg-[var(--color-bg)] relative overflow-hidden">
-  <div class="absolute pointer-events-none" aria-hidden="true"
-       style="width: 1000px; height: 1000px; top: -460px; right: -460px;
-              background: radial-gradient(circle, transparent 0%, rgba(124,58,237,0.01) 3%, rgba(124,58,237,0.02) 6%, rgba(124,58,237,0.06) 9%, rgba(124,58,237,0.11) 11%, rgba(124,58,237,0.15) 12%, rgba(124,58,237,0.15) 20%, rgba(124,58,237,0.15) 15%, rgba(124,58,237,0.11) 30%, rgba(124,58,237,0.06) 40%, rgba(124,58,237,0.02) 50%, rgba(124,58,237,0.01) 5%, transparent 100%);"></div>
-  <div class="absolute pointer-events-none" aria-hidden="true"
-       style="width: 600px; height: 600px; bottom: -276px; left: -276px;
-              background: radial-gradient(circle, transparent 0%, rgba(79,110,247,0.01) 3%, rgba(79,110,247,0.02) 6%, rgba(79,110,247,0.06) 9%, rgba(79,110,247,0.11) 11%, rgba(79,110,247,0.15) 12%, rgba(79,110,247,0.15) 20%, rgba(79,110,247,0.15) 15%, rgba(79,110,247,0.11) 30%, rgba(79,110,247,0.06) 40%, rgba(79,110,247,0.02) 50%, rgba(79,110,247,0.01) 5%, transparent 100%);"></div>
+  <div class="absolute pointer-events-none glow-fw-violet" aria-hidden="true"
+       style="background: radial-gradient(circle, transparent 0%, rgba(124,58,237,0.01) 3%, rgba(124,58,237,0.02) 5%, rgba(124,58,237,0.03) 7%, rgba(124,58,237,0.06) 10%, rgba(124,58,237,0.08) 18%, rgba(124,58,237,0.10) 24%, rgba(124,58,237,0.13) 28%, rgba(124,58,237,0.15) 35%, rgba(124,58,237,0.11) 43%, rgba(124,58,237,0.06) 50%, rgba(124,58,237,0.01) 65%, rgba(124,58,237,0.0) 69%, rgba(124,58,237,0.00) 85%, transparent 100%);"></div>
+  <div class="absolute pointer-events-none glow-fw-blue" aria-hidden="true"
+       style="background: radial-gradient(circle, transparent 0%, rgba(79,110,247,0.01) 3%, rgba(79,110,247,0.02) 5%, rgba(79,110,247,0.03) 7%, rgba(79,110,247,0.06) 10%, rgba(79,110,247,0.08) 18%, rgba(79,110,247,0.10) 24%, rgba(79,110,247,0.13) 28%, rgba(79,110,247,0.15) 35%, rgba(79,110,247,0.11) 43%, rgba(79,110,247,0.06) 50%, rgba(79,110,247,0.01) 65%, rgba(79,110,247,0.0) 69%, rgba(79,110,247,0.00) 85%, transparent 100%);"></div>
 
   <div class="max-w-7xl mx-auto relative z-10">
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">

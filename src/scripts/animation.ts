@@ -256,15 +256,14 @@ export function initClipReveal(): void {
 }
 
 export function initWhoWeAreParallax(): void {
-  mm.add('(prefers-reduced-motion: no-preference)', () => {
+  // Parallax only on desktop — scrub animations on mobile cause jank
+  // because the JS thread can't keep up with scroll on low-power devices
+  mm.add('(prefers-reduced-motion: no-preference) and (min-width: 768px)', () => {
     const img = document.querySelector<HTMLElement>('[data-whoweare-img]');
     if (!img) return;
     const section = img.closest('section');
     if (!section) return;
 
-    // Image drifts upward as the section scrolls through the viewport —
-    // creates depth separation between the text column and the image column.
-    // 115% image height provides coverage so edges are never exposed.
     gsap.fromTo(
       img,
       { y: 0 },

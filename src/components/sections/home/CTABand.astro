@@ -2,13 +2,32 @@
 import Button from '@/components/ui/Button.astro';
 ---
 
+<style>
+  .glow-cta-blue {
+    width: 900px; height: 900px;
+    bottom: -400px; right: -200px;
+  }
+  .glow-cta-violet {
+    width: 550px; height: 550px;
+    top: -180px; left: -100px;
+  }
+  @media (max-width: 767px) {
+    .glow-cta-blue {
+      width: 420px; height: 420px;
+      bottom: -235px; right: -95px;
+    }
+    .glow-cta-violet {
+      width: 260px; height: 260px;
+      top: -110px; left: -95px;
+    }
+  }
+</style>
+
 <section class="py-28 px-6 bg-[var(--color-bg)] relative overflow-hidden" data-animate>
-  <div class="absolute pointer-events-none" aria-hidden="true"
-       style="width: 900px; height: 900px; top: -414px; right: -414px;
-              background: radial-gradient(circle, transparent 0%, rgba(79,110,247,0.01) 3%, rgba(79,110,247,0.02) 6%, rgba(79,110,247,0.06) 9%, rgba(79,110,247,0.11) 11%, rgba(79,110,247,0.15) 12%, rgba(79,110,247,0.15) 20%, rgba(79,110,247,0.15) 15%, rgba(79,110,247,0.11) 30%, rgba(79,110,247,0.06) 40%, rgba(79,110,247,0.02) 50%, rgba(79,110,247,0.01) 5%, transparent 100%);"></div>
-  <div class="absolute pointer-events-none" aria-hidden="true"
-       style="width: 550px; height: 550px; bottom: -253px; left: -253px;
-              background: radial-gradient(circle, transparent 0%, rgba(124,58,237,0.01) 3%, rgba(124,58,237,0.02) 6%, rgba(124,58,237,0.06) 9%, rgba(124,58,237,0.11) 11%, rgba(124,58,237,0.15) 12%, rgba(124,58,237,0.15) 20%, rgba(124,58,237,0.15) 15%, rgba(124,58,237,0.11) 30%, rgba(124,58,237,0.06) 40%, rgba(124,58,237,0.02) 50%, rgba(124,58,237,0.01) 5%, transparent 100%);"></div>
+  <div class="absolute pointer-events-none glow-cta-blue" aria-hidden="true"
+       style="background: radial-gradient(circle, transparent 0%, rgba(79,110,247,0.01) 3%, rgba(79,110,247,0.02) 5%, rgba(79,110,247,0.03) 7%, rgba(79,110,247,0.06) 10%, rgba(79,110,247,0.08) 18%, rgba(79,110,247,0.10) 24%, rgba(79,110,247,0.13) 28%, rgba(79,110,247,0.15) 35%, rgba(79,110,247,0.11) 43%, rgba(79,110,247,0.06) 50%, rgba(79,110,247,0.01) 65%, rgba(79,110,247,0.0) 69%, rgba(79,110,247,0.00) 85%, transparent 100%);"></div>
+  <div class="absolute pointer-events-none glow-cta-violet" aria-hidden="true"
+       style="background: radial-gradient(circle, transparent 0%, rgba(124,58,237,0.01) 3%, rgba(124,58,237,0.02) 5%, rgba(124,58,237,0.03) 7%, rgba(124,58,237,0.06) 10%, rgba(124,58,237,0.08) 18%, rgba(124,58,237,0.10) 24%, rgba(124,58,237,0.13) 28%, rgba(124,58,237,0.15) 35%, rgba(124,58,237,0.11) 43%, rgba(124,58,237,0.06) 50%, rgba(124,58,237,0.01) 65%, rgba(124,58,237,0.0) 69%, rgba(124,58,237,0.00) 85%, transparent 100%);"></div>
 
   <div class="max-w-4xl mx-auto text-center relative z-10">
     <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6">· Ready to grow?</p>
