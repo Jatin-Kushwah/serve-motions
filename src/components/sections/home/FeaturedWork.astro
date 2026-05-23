@@ -22,13 +22,17 @@ import Button from '@/components/ui/Button.astro';
       top: 55%; left: -126px;
     }
   }
+
+  [data-work-img] {
+    will-change: transform;
+  }
 </style>
 
-<section class="py-28 px-6 bg-[var(--color-bg)] relative overflow-hidden">
-  <div class="absolute pointer-events-none glow-fw-violet" aria-hidden="true"
-       style="background: radial-gradient(circle, transparent 0%, rgba(124,58,237,0.01) 3%, rgba(124,58,237,0.02) 5%, rgba(124,58,237,0.03) 7%, rgba(124,58,237,0.06) 10%, rgba(124,58,237,0.08) 18%, rgba(124,58,237,0.10) 24%, rgba(124,58,237,0.13) 28%, rgba(124,58,237,0.15) 35%, rgba(124,58,237,0.11) 43%, rgba(124,58,237,0.06) 50%, rgba(124,58,237,0.01) 65%, rgba(124,58,237,0.0) 69%, rgba(124,58,237,0.00) 85%, transparent 100%);"></div>
-  <div class="absolute pointer-events-none glow-fw-blue" aria-hidden="true"
-       style="background: radial-gradient(circle, transparent 0%, rgba(79,110,247,0.01) 3%, rgba(79,110,247,0.02) 5%, rgba(79,110,247,0.03) 7%, rgba(79,110,247,0.06) 10%, rgba(79,110,247,0.08) 18%, rgba(79,110,247,0.10) 24%, rgba(79,110,247,0.13) 28%, rgba(79,110,247,0.15) 35%, rgba(79,110,247,0.11) 43%, rgba(79,110,247,0.06) 50%, rgba(79,110,247,0.01) 65%, rgba(79,110,247,0.0) 69%, rgba(79,110,247,0.00) 85%, transparent 100%);"></div>
+<section id="featured-work" class="py-28 px-6 bg-[var(--color-bg)] relative overflow-hidden">
+  <div class="absolute pointer-events-none rounded-full glow-fw-violet" aria-hidden="true"
+       style="filter: blur(120px); background: rgba(124,58,237,0.14);"></div>
+  <div class="absolute pointer-events-none rounded-full glow-fw-blue" aria-hidden="true"
+       style="filter: blur(80px); background: rgba(79,110,247,0.18);"></div>
 
   <div class="max-w-7xl mx-auto relative z-10">
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
@@ -47,10 +51,19 @@ import Button from '@/components/ui/Button.astro';
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6" data-animate-work>
-      {work.map((item) => (
-        <article class="work-card rounded-2xl overflow-hidden group relative cursor-pointer" data-cursor-hover>
+      {work.map((item, i) => (
+        <article
+          class:list={[
+            'work-card rounded-2xl overflow-hidden group relative cursor-pointer',
+            i === 0 ? 'md:col-span-2' : '',
+          ]}
+          data-cursor-hover
+        >
           <div
-            class="aspect-[4/3] flex flex-col justify-end p-8 relative"
+            class:list={[
+              'flex flex-col justify-end p-8 relative',
+              i === 0 ? 'aspect-[4/3] md:aspect-[3/2]' : 'aspect-[4/3]',
+            ]}
             style={item.image ? undefined : `background: ${item.bgGradient};`}
             role="img"
             aria-label={`${item.client} case study`}
@@ -65,6 +78,7 @@ import Button from '@/components/ui/Button.astro';
                   loading="lazy"
                   decoding="async"
                   aria-hidden="true"
+                  data-work-img
                 />
                 <div
                   class="absolute inset-0 pointer-events-none"
@@ -88,7 +102,10 @@ import Button from '@/components/ui/Button.astro';
 
             <!-- Bottom content -->
             <div class="relative z-10">
-              <p class="font-[var(--font-heading)] text-4xl font-extrabold text-[var(--color-accent)] mb-1">
+              <p
+                class="font-[var(--font-heading)] text-6xl font-extrabold mb-1"
+                style="background: linear-gradient(135deg, #4F6EF7, #7C3AED); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;"
+              >
                 {item.metric}
               </p>
               <p class="text-sm text-white/60 mb-3">{item.metricLabel}</p>
@@ -100,3 +117,31 @@ import Button from '@/components/ui/Button.astro';
     </div>
   </div>
 </section>
+
+<script>
+  import { gsap } from 'gsap';
+
+  const mm = gsap.matchMedia();
+
+  mm.add('(prefers-reduced-motion: no-preference) and (pointer: fine)', () => {
+    document.querySelectorAll<HTMLElement>('.work-card').forEach((card) => {
+      const img = card.querySelector<HTMLElement>('[data-work-img]');
+      if (!img) return;
+
+      const xTo = gsap.quickTo(img, 'x', { duration: 0.4, ease: 'power3.out' });
+      const yTo = gsap.quickTo(img, 'y', { duration: 0.4, ease: 'power3.out' });
+
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+        const ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+        xTo(nx * 12);
+        yTo(ny * 8);
+      });
+
+      card.addEventListener('mouseleave', () => {
+        gsap.to(img, { x: 0, y: 0, duration: 0.6, ease: 'expo.out' });
+      });
+    });
+  });
+</script>

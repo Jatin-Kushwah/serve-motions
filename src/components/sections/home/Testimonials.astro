@@ -50,7 +50,10 @@ import { testimonials } from '@/data/testimonials';
         })}
       </div>
 
-      <!-- Navigation + pagination -->
+      <!-- Progress bar -->
+      <div class="t-progress-bar" aria-hidden="true"></div>
+
+      <!-- Navigation -->
       <div class="t-nav-row flex items-center gap-3 mt-6">
         <button class="swiper-btn-prev w-10 h-10 rounded-full flex items-center justify-center bg-[var(--color-surface-2)] text-[var(--color-accent)] border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-colors cursor-pointer" aria-label="Previous testimonial">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -68,21 +71,73 @@ import { testimonials } from '@/data/testimonials';
 </section>
 
 <style>
+  .testimonials-swiper {
+    overflow: visible !important;
+  }
+
   .swiper-slide-active .testimonial-card {
     border-left: 2px solid var(--color-accent);
     box-shadow: 0 -4px 40px rgba(79, 110, 247, 0.08), 0 24px 48px rgba(0, 0, 0, 0.45);
+  }
+
+  /* Decorative quote mark */
+  .testimonial-card::before {
+    content: '\201C';
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 7rem;
+    line-height: 1;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    background: linear-gradient(135deg, #4F6EF7, #7C3AED);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Progress bar */
+  .t-progress-bar {
+    height: 2px;
+    background: linear-gradient(to right, #4F6EF7, #7C3AED);
+    width: 0%;
+    margin-top: 12px;
+    border-radius: 1px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .t-progress-bar.running {
+      animation: t-progress 4000ms linear forwards;
+    }
+  }
+
+  @keyframes t-progress {
+    from { width: 0%; }
+    to { width: 100%; }
   }
 </style>
 
 <script>
   import { gsap } from 'gsap';
   import Swiper from 'swiper';
-  import { Navigation, Autoplay, EffectFade } from 'swiper/modules';
+  import { Navigation, Autoplay, EffectCards } from 'swiper/modules';
   import 'swiper/css';
   import 'swiper/css/navigation';
-  import 'swiper/css/effect-fade';
+  import 'swiper/css/effect-cards';
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const bar = document.querySelector<HTMLElement>('.t-progress-bar')!;
+
+  function restartProgress() {
+    if (prefersReduced || !bar) return;
+    bar.classList.remove('running');
+    void bar.offsetWidth; // force reflow to restart CSS animation
+    bar.classList.add('running');
+  }
 
   // Orchestrated entrance: card blooms in, then stars → quote → footer stagger.
   function animateSlideIn(slide: Element) {
@@ -133,11 +188,14 @@ import { testimonials } from '@/data/testimonials';
   }
 
   const swiper = new Swiper('.testimonials-swiper', {
-    modules: [Navigation, Autoplay, EffectFade],
+    modules: prefersReduced ? [Navigation, Autoplay] : [Navigation, Autoplay, EffectCards],
+    ...(prefersReduced ? {} : {
+      effect: 'cards' as const,
+      cardsEffect: { perSlideOffset: 8, perSlideRotate: 2, rotate: true, slideShadows: false },
+    }),
     slidesPerView: 1,
     spaceBetween: 24,
-    effect: 'fade',
-    speed: 650,
+    speed: prefersReduced ? 600 : 700,
     loop: true,
     autoplay: prefersReduced ? false : { delay: 4000, pauseOnMouseEnter: true, disableOnInteraction: false },
     navigation: {
@@ -147,10 +205,12 @@ import { testimonials } from '@/data/testimonials';
     on: {
       slideChange(s) {
         animateSlideIn(s.slides[s.activeIndex]);
+        restartProgress();
       },
     },
   });
 
-  // Animate the first slide on page load
+  // Animate the first slide and start progress bar on page load
   animateSlideIn(swiper.slides[swiper.activeIndex]);
+  restartProgress();
 </script>

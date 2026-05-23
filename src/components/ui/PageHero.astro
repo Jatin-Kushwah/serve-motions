@@ -2,47 +2,57 @@
 interface Props {
   headline: string;
   intro: string;
-  accentWord?: string;
+  gradientPhrase?: string;
+  blueStyle?: string;
+  violetStyle?: string;
 }
 
-const { headline, intro, accentWord } = Astro.props;
+const { headline, intro, gradientPhrase, blueStyle, violetStyle } = Astro.props;
 
-const headlineWithAccent = accentWord
-  ? headline.replace(accentWord, `<span class="accent-underline">${accentWord}</span>`)
+const headlineWithAccent = gradientPhrase
+  ? headline.replace(
+      gradientPhrase,
+      `<span style="background: linear-gradient(135deg, #4F6EF7, #7C3AED); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">${gradientPhrase}</span>`
+    )
   : headline;
+
+// Default positions: services page layout
+const resolvedBlueStyle = blueStyle ?? 'width: 800px; height: 800px; top: -350px; left: -250px;';
+const resolvedVioletStyle = violetStyle ?? 'width: 450px; height: 450px; bottom: -150px; right: -80px;';
 ---
 
 <section class="pt-40 pb-24 px-6 bg-[var(--color-bg)] relative overflow-hidden">
-  <!-- Subtle orb -->
-  <div class="absolute pointer-events-none" aria-hidden="true" style="top: -20%; right: -10%; width: 40vw; height: 40vw; max-width: 500px; max-height: 500px; background: radial-gradient(ellipse 70% 70% at center, rgba(79,110,247,0.07), transparent);"></div>
+  <!-- Blue atmospheric glow -->
+  <div class="absolute pointer-events-none rounded-full" aria-hidden="true" style={`
+    ${resolvedBlueStyle}
+    filter: blur(100px);
+    background: rgba(79,110,247,0.18);
+  `}></div>
+  <!-- Violet atmospheric glow -->
+  <div class="absolute pointer-events-none rounded-full" aria-hidden="true" style={`
+    ${resolvedVioletStyle}
+    filter: blur(70px);
+    background: rgba(124,58,237,0.14);
+  `}></div>
+  <!-- Subtle dot grid for structural depth -->
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true"
+       style="background-image: radial-gradient(rgba(255,255,255,0.035) 1px, transparent 1px);
+              background-size: 40px 40px;
+              mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 70%);
+              -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 70%);"></div>
 
   <div class="max-w-7xl mx-auto relative z-10">
     <div class="max-w-3xl">
       <h1
-        class="font-[var(--font-heading)] text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] text-[var(--color-text)] mb-6"
+        class="font-[var(--font-heading)] text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.02] text-[var(--color-text)] mb-6"
         set:html={headlineWithAccent}
-        data-splitting
+        data-animate-heading
       />
-      <p class="text-lg md:text-xl text-[var(--color-text-muted)] leading-relaxed max-w-xl">
-        {intro}
-      </p>
+      <div data-animate-body>
+        <p class="text-lg md:text-xl text-[var(--color-text-muted)] leading-relaxed max-w-xl">
+          {intro}
+        </p>
+      </div>
     </div>
   </div>
 </section>
-
-<script>
-  import { gsap } from 'gsap';
-
-  const mm = gsap.matchMedia();
-
-  mm.add('(prefers-reduced-motion: no-preference)', () => {
-    const chars = document.querySelectorAll('.pt-40 [data-splitting] .char');
-    if (chars.length === 0) return;
-
-    gsap.fromTo(
-      chars,
-      { y: 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out', stagger: 0.025, delay: 0.2 }
-    );
-  });
-</script>

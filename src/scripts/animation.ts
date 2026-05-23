@@ -281,5 +281,48 @@ export function initWhoWeAreParallax(): void {
   });
 }
 
+export function initHeroV2Parallax(): void {
+  // No-op when [data-herov2-img] is absent (V1 or V3 active)
+  mm.add('(prefers-reduced-motion: no-preference) and (min-width: 768px)', () => {
+    const img = document.querySelector<HTMLElement>('[data-herov2-img]');
+    if (!img) return;
+    const section = img.closest('section');
+    if (!section) return;
+
+    gsap.fromTo(
+      img,
+      { y: 0 },
+      {
+        y: -60,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1.5,
+        },
+      }
+    );
+
+    const pill = document.querySelector<HTMLElement>('[data-herov2-pill]');
+    if (pill) {
+      gsap.fromTo(
+        pill,
+        { y: 0 },
+        {
+          y: -30,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 1.5,
+          },
+        }
+      );
+    }
+  });
+}
+
 export { mm };
 

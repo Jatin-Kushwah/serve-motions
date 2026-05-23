@@ -9,34 +9,44 @@
     style="background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&auto=format&q=80'); background-size: cover; background-position: center;"
     aria-hidden="true"
   >
-    <!-- Brand colour overlay -->
-    <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(79,110,247,0.65), rgba(124,58,237,0.65));"></div>
+    <!-- Brand colour overlay — capped at 0.38 so background image breathes through -->
+    <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(79,110,247,0.38), rgba(124,58,237,0.38));"></div>
+    <!-- Grain noise texture -->
+    <div aria-hidden="true" class="absolute inset-0 pointer-events-none z-[5]"
+         style="filter: url(#grain-noise); opacity: 0.035; background: white;"></div>
   </div>
 
   <!-- Content overlay -->
   <div class="relative z-10 flex flex-col items-center justify-center text-center px-6 py-32 md:py-40 min-h-[60vh]">
     <p class="text-xs font-semibold uppercase tracking-[0.2em] text-white/70 mb-5">· Our Process</p>
-    <h2 class="font-[var(--font-heading)] text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight max-w-3xl mb-12">
+    <h2
+      class="font-[var(--font-heading)] text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight max-w-3xl"
+      data-animate-heading
+    >
       See How We Turn Ideas Into Results
     </h2>
 
-    <!-- Play button with pulsing halo -->
-    <div class="relative flex items-center justify-center">
-      <!-- Halo rings — gated by prefers-reduced-motion -->
-      <div class="halo-inner absolute rounded-full" aria-hidden="true"></div>
-      <div class="halo-outer absolute rounded-full" aria-hidden="true"></div>
+    <div data-animate-body>
+      <p class="text-sm text-white/60 mt-4 mb-8">3-minute walkthrough of how we work</p>
 
-      <button
-        id="play-btn"
-        class="relative z-10 flex items-center justify-center rounded-full text-white cursor-pointer"
-        style="width: 72px; height: 72px; background: linear-gradient(135deg, #4F6EF7, #7C3AED);"
-        aria-label="Play video"
-      >
-        <!-- Offset play icon slightly right for optical centering -->
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="white" aria-hidden="true" style="margin-left: 3px;">
-          <path d="M8 5v14l11-7z"/>
-        </svg>
-      </button>
+      <!-- Play button with pulsing halo -->
+      <div class="relative flex items-center justify-center">
+        <!-- Halo rings — gated by prefers-reduced-motion -->
+        <div class="halo-inner absolute rounded-full" aria-hidden="true"></div>
+        <div class="halo-outer absolute rounded-full" aria-hidden="true"></div>
+
+        <button
+          id="play-btn"
+          class="relative z-10 flex items-center justify-center rounded-full text-white cursor-pointer"
+          style="width: 72px; height: 72px; background: linear-gradient(135deg, #4F6EF7, #7C3AED);"
+          aria-label="Play video"
+        >
+          <!-- Offset play icon slightly right for optical centering -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="white" aria-hidden="true" style="margin-left: 3px;">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
 </section>

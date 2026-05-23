@@ -2,7 +2,7 @@
 import { team } from '@/data/team';
 ---
 
-<section class="py-28 px-6 bg-[var(--color-bg)]" data-animate>
+<section class="py-28 px-6 bg-[var(--color-bg)]">
   <div class="max-w-7xl mx-auto">
     <div class="mb-16">
       <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-4">· The Team</p>
@@ -11,18 +11,18 @@ import { team } from '@/data/team';
       </h2>
     </div>
 
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8">
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8" data-team-grid>
       {team.map((member) => (
-        <article class="flex flex-col items-center text-center group">
-          <!-- Avatar placeholder -->
+        <article class="team-card flex flex-col items-center text-center group">
+          <!-- Avatar -->
           <div
-            class="w-20 h-20 rounded-full flex items-center justify-center mb-4 text-white font-[var(--font-heading)] font-bold text-lg"
-            style={`background-color: ${member.bg};`}
+            class="w-24 h-24 rounded-full flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-105 group-hover:ring-2 group-hover:ring-[var(--color-accent)] group-hover:ring-offset-2 group-hover:ring-offset-[var(--color-bg)]"
+            style={`background: linear-gradient(135deg, ${member.bg}, ${member.bg}88); box-shadow: 0 0 20px ${member.bg}44;`}
             aria-hidden="true"
           >
-            {member.initials}
+            <span class="text-white font-[var(--font-heading)] font-extrabold text-xl">{member.initials}</span>
           </div>
-          <p class="font-semibold text-[var(--color-text)] text-sm mb-0.5">{member.name}</p>
+          <p class="font-semibold text-sm mb-0.5 transition-colors duration-300 group-hover:text-[var(--color-accent)]" style="color: var(--color-text);">{member.name}</p>
           <p class="text-xs text-[var(--color-text-muted)] mb-3 leading-snug">{member.role}</p>
           <a href="#" class="text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors" aria-label={`${member.name} on LinkedIn`} data-cursor-hover>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
@@ -32,3 +32,26 @@ import { team } from '@/data/team';
     </div>
   </div>
 </section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  const mm = gsap.matchMedia();
+
+  mm.add('(prefers-reduced-motion: no-preference)', () => {
+    gsap.fromTo('.team-card',
+      { opacity: 0, y: 24 },
+      {
+        opacity: 1, y: 0, stagger: 0.06, duration: 0.5, ease: 'power3.out',
+        immediateRender: false,
+        scrollTrigger: { trigger: '[data-team-grid]', start: 'top 80%', once: true }
+      }
+    );
+  });
+
+  mm.add('(prefers-reduced-motion: reduce)', () => {
+    gsap.set('.team-card', { opacity: 1, y: 0 });
+  });
+</script>

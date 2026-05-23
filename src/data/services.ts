@@ -25,7 +25,7 @@ export const services: Service[] = [
     bgGradient: 'linear-gradient(135deg, rgba(139,92,246,0.08) 0%, rgba(109,40,217,0.04) 100%)',
     stat: '4.8×',
     statLabel: 'avg. engagement increase',
-    image: 'https://images.unsplash.com/photo-1771876002358-e870981466d8?w=600&auto=format&q=80',
+    image: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=600&auto=format&q=80',
   },
   {
     id: 'paid',
@@ -41,7 +41,7 @@ export const services: Service[] = [
     bgGradient: 'linear-gradient(135deg, rgba(245,158,11,0.08) 0%, rgba(217,119,6,0.04) 100%)',
     stat: '2.7×',
     statLabel: 'avg. return on ad spend',
-    image: 'https://images.unsplash.com/photo-1757165479625-2b73d214de21?w=600&auto=format&q=80',
+    image: 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600&auto=format&q=80',
   },
   {
     id: 'brand',
@@ -57,7 +57,7 @@ export const services: Service[] = [
     bgGradient: 'linear-gradient(135deg, rgba(236,72,153,0.08) 0%, rgba(225,29,72,0.04) 100%)',
     stat: '89%',
     statLabel: 'of clients see higher conversion',
-    image: 'https://images.unsplash.com/photo-1761998066512-180aac759a3e?w=600&auto=format&q=80',
+    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&auto=format&q=80',
   },
   {
     id: 'email',
@@ -73,7 +73,7 @@ export const services: Service[] = [
     bgGradient: 'linear-gradient(135deg, rgba(14,165,233,0.08) 0%, rgba(99,102,241,0.04) 100%)',
     stat: '41%',
     statLabel: 'avg. open rate delivered',
-    image: 'https://images.unsplash.com/photo-1766068472262-253151e7fdf7?w=600&auto=format&q=80',
+    image: 'https://images.unsplash.com/photo-1484417894907-623942c8ee29?w=600&auto=format&q=80',
   },
   {
     id: 'web',
@@ -89,6 +89,6 @@ export const services: Service[] = [
     bgGradient: 'linear-gradient(135deg, rgba(99,102,241,0.08) 0%, rgba(59,130,246,0.04) 100%)',
     stat: '<1s',
     statLabel: 'avg. time to interactive',
-    image: 'https://images.unsplash.com/photo-1754039984985-ef607d80113a?w=600&auto=format&q=80',
+    image: 'https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=600&auto=format&q=80',
   },
 ];

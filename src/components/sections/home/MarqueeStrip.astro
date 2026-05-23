@@ -1,5 +1,5 @@
 ---
-const items = [
+const items1 = [
   'Social Media Marketing',
   'Paid Advertising',
   'Brand Identity & Design',
@@ -7,16 +7,42 @@ const items = [
   'Web Design & Development',
 ];
 
+const items2 = [
+  'Strategy-first',
+  'Results-obsessed',
+  'Data-driven',
+  'No vanity metrics',
+  'Built to scale',
+  'Client-obsessed',
+  'Measurable outcomes',
+  'Zero compromises',
+];
+
 const separator = '·';
 ---
 
-<div class="bg-[var(--color-surface)] border-y border-[var(--color-border)] py-4 overflow-hidden" aria-label="Our services">
-  <div class="marquee-track flex items-center gap-8 whitespace-nowrap w-max">
-    {[...items, ...items].map((item) => (
-      <span class="flex items-center gap-8 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-text-muted)]">
-        <span>{item}</span>
-        <span class="text-[var(--color-accent)] text-base" aria-hidden="true">{separator}</span>
-      </span>
-    ))}
+<div class="marquee-container bg-[var(--color-surface)] border-y border-[var(--color-border)] py-5 overflow-hidden flex flex-col gap-3" aria-label="Our services and values">
+  <!-- Row 1: services, left scroll -->
+  <div class="overflow-hidden">
+    <div class="marquee-track flex items-center gap-8 whitespace-nowrap w-max">
+      {[...items1, ...items1].map((item) => (
+        <span class="flex items-center gap-8 text-xs font-semibold uppercase tracking-[0.2em] text-white/60">
+          <span>{item}</span>
+          <span class="text-[var(--color-accent)] text-base" aria-hidden="true">{separator}</span>
+        </span>
+      ))}
+    </div>
+  </div>
+
+  <!-- Row 2: brand values, right scroll (slower, more muted) -->
+  <div class="overflow-hidden" aria-hidden="true">
+    <div class="marquee-track-reverse flex items-center gap-8 whitespace-nowrap w-max">
+      {[...items2, ...items2].map((item) => (
+        <span class="flex items-center gap-8 text-xs font-semibold uppercase tracking-[0.2em] text-white/40">
+          <span>{item}</span>
+          <span class="text-[var(--color-accent-alt)] text-base" aria-hidden="true">{separator}</span>
+        </span>
+      ))}
+    </div>
   </div>
 </div>

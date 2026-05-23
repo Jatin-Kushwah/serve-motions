@@ -11,27 +11,44 @@ import CTABand from '@/components/sections/home/CTABand.astro';
   description="Transparent monthly retainer plans for social media, paid advertising, email marketing, and more. Find the right plan for your business."
 >
   <!-- Compact pricing hero — minimal vertical footprint so cards land above the fold -->
-  <section class="pt-36 pb-8 px-6 bg-[var(--color-bg)] relative overflow-hidden text-center">
-    <!-- Ambient glow -->
+  <section class="pt-36 pb-8 px-6 bg-[var(--color-bg)] relative overflow-hidden">
+    <!-- Blue glow, center-top -->
     <div
-      class="absolute pointer-events-none"
+      class="absolute pointer-events-none rounded-full"
       aria-hidden="true"
-      style="top: -30%; left: 50%; transform: translateX(-50%); width: 700px; height: 420px; background: radial-gradient(ellipse 65% 65% at 50% 30%, rgba(79,110,247,0.11), transparent);"
+      style="top: -450px; left: 50%; transform: translateX(-50%); width: 1000px; height: 1000px;
+             filter: blur(120px);
+             background: rgba(79,110,247,0.18);"
+    ></div>
+    <!-- Violet glow, bottom-right -->
+    <div
+      class="absolute pointer-events-none rounded-full"
+      aria-hidden="true"
+      style="bottom: -120px; right: -60px; width: 400px; height: 400px;
+             filter: blur(60px);
+             background: rgba(124,58,237,0.14);"
     ></div>
 
-    <div class="max-w-3xl mx-auto relative z-10">
-      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-5">· Pricing</p>
+    <div class="max-w-7xl mx-auto relative z-10">
+      <div class="max-w-3xl">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-5">· Pricing</p>
 
-      <h1 class="font-[var(--font-heading)] text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.08] text-[var(--color-text)] mb-5">
-        Plans built for<br>
-        <span style="background: linear-gradient(135deg, #4F6EF7, #7C3AED); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-          real growth.
-        </span>
-      </h1>
+        <h1
+          class="font-[var(--font-heading)] text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.08] text-[var(--color-text)] mb-5"
+          data-animate-heading
+        >
+          Plans built for<br>
+          <span style="background: linear-gradient(135deg, #4F6EF7, #7C3AED); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+            real growth.
+          </span>
+        </h1>
 
-      <p class="text-base md:text-lg text-[var(--color-text-muted)] leading-relaxed max-w-xl mx-auto">
-        No hidden fees. No long-term lock-in. Just a focused team and measurable results from day one.
-      </p>
+        <div data-animate-body>
+          <p class="text-base md:text-lg text-[var(--color-text-muted)] leading-relaxed max-w-xl">
+            No hidden fees. No long-term lock-in. Just a focused team and measurable results from day one.
+          </p>
+        </div>
+      </div>
     </div>
   </section>
 

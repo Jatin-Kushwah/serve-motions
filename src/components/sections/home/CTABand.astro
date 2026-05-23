@@ -24,20 +24,35 @@ import Button from '@/components/ui/Button.astro';
 </style>
 
 <section class="py-28 px-6 bg-[var(--color-bg)] relative overflow-hidden" data-animate>
-  <div class="absolute pointer-events-none glow-cta-blue" aria-hidden="true"
-       style="background: radial-gradient(circle, transparent 0%, rgba(79,110,247,0.01) 3%, rgba(79,110,247,0.02) 5%, rgba(79,110,247,0.03) 7%, rgba(79,110,247,0.06) 10%, rgba(79,110,247,0.08) 18%, rgba(79,110,247,0.10) 24%, rgba(79,110,247,0.13) 28%, rgba(79,110,247,0.15) 35%, rgba(79,110,247,0.11) 43%, rgba(79,110,247,0.06) 50%, rgba(79,110,247,0.01) 65%, rgba(79,110,247,0.0) 69%, rgba(79,110,247,0.00) 85%, transparent 100%);"></div>
-  <div class="absolute pointer-events-none glow-cta-violet" aria-hidden="true"
-       style="background: radial-gradient(circle, transparent 0%, rgba(124,58,237,0.01) 3%, rgba(124,58,237,0.02) 5%, rgba(124,58,237,0.03) 7%, rgba(124,58,237,0.06) 10%, rgba(124,58,237,0.08) 18%, rgba(124,58,237,0.10) 24%, rgba(124,58,237,0.13) 28%, rgba(124,58,237,0.15) 35%, rgba(124,58,237,0.11) 43%, rgba(124,58,237,0.06) 50%, rgba(124,58,237,0.01) 65%, rgba(124,58,237,0.0) 69%, rgba(124,58,237,0.00) 85%, transparent 100%);"></div>
+  <div class="absolute pointer-events-none rounded-full glow-cta-blue" aria-hidden="true"
+       style="filter: blur(100px); background: rgba(79,110,247,0.18);"></div>
+  <div class="absolute pointer-events-none rounded-full glow-cta-violet" aria-hidden="true"
+       style="filter: blur(75px); background: rgba(124,58,237,0.14);"></div>
 
-  <div class="max-w-4xl mx-auto text-center relative z-10">
-    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6">· Ready to grow?</p>
-    <h2 class="font-[var(--font-heading)] text-4xl md:text-5xl lg:text-6xl font-extrabold text-[var(--color-text)] leading-tight mb-6">
-      Ready to grow your <br />
-      <span style="background: linear-gradient(135deg, #4F6EF7, #7C3AED); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">business online?</span>
-    </h2>
-    <p class="text-[var(--color-text-muted)] text-lg leading-relaxed mb-10 max-w-xl mx-auto">
-      Let's build something that moves people — and moves the needle on your bottom line.
-    </p>
-    <Button href="/contact" variant="gradient">Let's Talk</Button>
+  <div class="max-w-4xl mx-auto relative z-10">
+    <div
+      class="rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface-2)] px-10 py-16 md:px-16 text-center relative overflow-hidden"
+      style="box-shadow: inset 0 1px 0 rgba(79,110,247,0.35);"
+    >
+      <!-- Grain noise texture -->
+      <div aria-hidden="true" class="absolute inset-0 pointer-events-none z-[1]"
+           style="filter: url(#grain-noise); opacity: 0.03; background: white;"></div>
+
+      <div class="relative z-[2]">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6">· Ready to grow?</p>
+        <h2 class="font-[var(--font-heading)] text-4xl md:text-5xl lg:text-6xl font-extrabold text-[var(--color-text)] leading-tight mb-6">
+          Ready to grow your <br />
+          <span style="background: linear-gradient(135deg, #4F6EF7, #7C3AED); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">business online?</span>
+        </h2>
+        <p class="text-[var(--color-text-muted)] text-lg leading-relaxed mb-10 max-w-xl mx-auto">
+          Let's build something that moves people — and moves the needle on your bottom line.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <Button href="/contact" variant="gradient">Let's Talk</Button>
+          <Button href="/#featured-work" variant="outline">See Our Work</Button>
+        </div>
+        <p class="text-sm text-[var(--color-text-muted)] mt-5">No contracts. Free first consultation.</p>
+      </div>
+    </div>
   </div>
 </section>

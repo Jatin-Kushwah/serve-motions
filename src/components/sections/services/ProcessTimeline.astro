@@ -27,12 +27,15 @@ const steps = [
 ];
 ---
 
-<section class="py-28 px-6 bg-[var(--color-surface)]" data-animate>
+<section class="py-28 px-6 bg-[var(--color-surface)]">
   <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-start">
     <!-- Left: heading -->
     <div class="lg:sticky lg:top-32">
       <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-4">· Our Process</p>
-      <h2 class="font-[var(--font-heading)] text-4xl md:text-5xl font-bold text-[var(--color-text)] leading-tight mb-6">
+      <h2
+        class="font-[var(--font-heading)] text-4xl md:text-5xl font-bold text-[var(--color-text)] leading-tight mb-6"
+        data-animate-heading
+      >
         How we go from brief to results.
       </h2>
       <p class="text-[var(--color-text-muted)] leading-relaxed">
@@ -42,18 +45,19 @@ const steps = [
 
     <!-- Right: steps -->
     <div class="relative">
-      <!-- Vertical line track -->
-      <div class="absolute left-8 top-8 bottom-8 w-px bg-[var(--color-border)]" aria-hidden="true">
-        <div id="timeline-progress" class="w-full bg-[var(--color-accent)] timeline-line h-full"></div>
+      <!-- Vertical line track with gradient -->
+      <div class="absolute left-6 top-8 bottom-8 w-px" aria-hidden="true"
+           style="background: linear-gradient(to bottom, transparent 0%, rgba(79,110,247,0.4) 15%, rgba(124,58,237,0.4) 85%, transparent 100%);">
       </div>
 
-      <div class="space-y-0">
+      <div class="process-track space-y-0">
         {steps.map((step) => (
-          <div class="flex gap-6 pb-12 last:pb-0">
-            <!-- Circle with number -->
+          <div class="process-step flex gap-6 pb-12 last:pb-0">
+            <!-- Refined gradient node -->
             <div class="relative z-10 shrink-0">
-              <div class="w-16 h-16 bg-[var(--color-accent)] rounded-full flex items-center justify-center ring-4 ring-[var(--color-surface)]">
-                <span class="font-[var(--font-heading)] font-extrabold text-lg text-white">{step.number}</span>
+              <div class="w-12 h-12 rounded-full flex items-center justify-center ring-4 ring-[var(--color-surface)]"
+                   style="background: linear-gradient(135deg, #4F6EF7, #7C3AED); box-shadow: 0 0 20px rgba(79,110,247,0.45), 0 0 40px rgba(79,110,247,0.15);">
+                <span class="font-[var(--font-heading)] font-extrabold text-sm text-white">{step.number}</span>
               </div>
             </div>
             <!-- Content -->
@@ -72,29 +76,22 @@ const steps = [
 <script>
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
   gsap.registerPlugin(ScrollTrigger);
 
   const mm = gsap.matchMedia();
 
   mm.add('(prefers-reduced-motion: no-preference)', () => {
-    const line = document.getElementById('timeline-progress');
-    if (!line) return;
-
-    gsap.to(line, {
-      scaleY: 1,
-      duration: 1.4,
-      ease: 'power2.inOut',
-      scrollTrigger: {
-        trigger: line,
-        start: 'top 75%',
-        once: true,
-      },
-    });
+    gsap.fromTo('.process-step',
+      { opacity: 0, x: -24 },
+      {
+        opacity: 1, x: 0, stagger: 0.14, duration: 0.6, ease: 'power3.out',
+        immediateRender: false,
+        scrollTrigger: { trigger: '.process-track', start: 'top 75%', once: true }
+      }
+    );
   });
 
   mm.add('(prefers-reduced-motion: reduce)', () => {
-    const line = document.getElementById('timeline-progress');
-    if (line) line.style.transform = 'scaleY(1)';
+    gsap.set('.process-step', { opacity: 1, x: 0 });
   });
 </script>

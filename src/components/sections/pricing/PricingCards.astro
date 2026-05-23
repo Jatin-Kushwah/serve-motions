@@ -27,8 +27,7 @@ import Button from '@/components/ui/Button.astro';
       </div>
     </div>
 
-    <!-- Cards grid — data-animate triggers initScrollAnimations stagger on direct children -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch" data-animate>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch" data-pricing-grid>
 
       {plans.map((plan) => {
         const isFeatured = plan.featured;
@@ -36,7 +35,8 @@ import Button from '@/components/ui/Button.astro';
         return isFeatured ? (
           <!-- Pro card: gradient-border wrapper -->
           <div
-            class="relative lg:scale-[1.03] lg:-my-2"
+            data-pricing-card
+            class="relative lg:scale-[1.03] lg:-my-2 hover:-translate-y-1 hover:shadow-[0_0_48px_rgba(79,110,247,0.28)] transition-all duration-300"
             style="background: linear-gradient(135deg, #4F6EF7, #7C3AED); padding: 1px; border-radius: var(--radius-xl); box-shadow: 0 0 48px rgba(79, 110, 247, 0.22);"
           >
             <!-- Most Popular badge -->
@@ -108,7 +108,8 @@ import Button from '@/components/ui/Button.astro';
         ) : (
           <!-- Basic / Agency card -->
           <div
-            class="flex flex-col p-8 rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[rgba(79,110,247,0.3)] transition-colors duration-300"
+            data-pricing-card
+            class="flex flex-col p-8 rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[rgba(79,110,247,0.3)] hover:-translate-y-1 hover:shadow-[0_0_32px_rgba(79,110,247,0.10)] transition-all duration-300 will-change-transform"
           >
             <div class="mb-8">
               <p class="font-[var(--font-heading)] text-xl font-bold text-[var(--color-text)] mb-2">{plan.name}</p>
@@ -166,6 +167,29 @@ import Button from '@/components/ui/Button.astro';
     </div>
   </div>
 </section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  const mm = gsap.matchMedia();
+
+  mm.add('(prefers-reduced-motion: no-preference)', () => {
+    gsap.fromTo('[data-pricing-card]',
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1, y: 0, stagger: 0.12, duration: 0.6, ease: 'power3.out',
+        immediateRender: false,
+        scrollTrigger: { trigger: '[data-pricing-grid]', start: 'top 80%', once: true }
+      }
+    );
+  });
+
+  mm.add('(prefers-reduced-motion: reduce)', () => {
+    gsap.set('[data-pricing-card]', { opacity: 1, y: 0 });
+  });
+</script>
 
 <script>
   import { gsap } from 'gsap';

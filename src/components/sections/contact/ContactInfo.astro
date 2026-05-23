@@ -2,53 +2,63 @@
 import { Mail, Phone } from '@lucide/astro';
 ---
 
-<div class="pl-0 lg:pl-12 border-l-0 lg:border-l-4 lg:border-l-[var(--color-accent)]">
+<style>
+  .contact-row:hover .contact-icon {
+    background: linear-gradient(135deg, #4F6EF7, #7C3AED);
+    color: white;
+  }
+</style>
+
+<div class="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-2)] p-8 lg:p-10"
+     style="box-shadow: inset 0 1px 0 rgba(79,110,247,0.2);">
   <h2 class="font-[var(--font-heading)] text-2xl font-bold text-[var(--color-text)] mb-8">
     Get in touch directly
   </h2>
 
-  <div class="space-y-6 mb-10">
-    <div class="flex items-center gap-4">
-      <div class="w-10 h-10 bg-[var(--color-surface)] rounded-xl flex items-center justify-center text-[var(--color-accent)] shrink-0">
-        <Mail size={18} />
+  <div data-animate-body>
+    <div class="space-y-2 mb-10">
+      <div class="contact-row flex items-center gap-4 p-3 -mx-3 rounded-xl hover:bg-[var(--color-surface)] transition-colors duration-200 cursor-pointer">
+        <div class="contact-icon w-10 h-10 bg-[var(--color-surface)] rounded-xl flex items-center justify-center text-[var(--color-accent)] shrink-0 transition-all duration-300">
+          <Mail size={18} />
+        </div>
+        <div>
+          <p class="text-xs text-[var(--color-text-muted)] mb-0.5">Email</p>
+          <a href="mailto:hello@servemotions.com" class="text-sm font-medium text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors" data-cursor-hover>
+            hello@servemotions.com
+          </a>
+        </div>
       </div>
-      <div>
-        <p class="text-xs text-[var(--color-text-muted)] mb-0.5">Email</p>
-        <a href="mailto:hello@servemotions.com" class="text-sm font-medium text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors" data-cursor-hover>
-          hello@servemotions.com
-        </a>
+
+      <div class="contact-row flex items-center gap-4 p-3 -mx-3 rounded-xl hover:bg-[var(--color-surface)] transition-colors duration-200 cursor-pointer">
+        <div class="contact-icon w-10 h-10 bg-[var(--color-surface)] rounded-xl flex items-center justify-center text-[var(--color-accent)] shrink-0 transition-all duration-300">
+          <Phone size={18} />
+        </div>
+        <div>
+          <p class="text-xs text-[var(--color-text-muted)] mb-0.5">Phone</p>
+          <a href="tel:+15551234567" class="text-sm font-medium text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors" data-cursor-hover>
+            +1 (555) 123-4567
+          </a>
+        </div>
       </div>
     </div>
 
-    <div class="flex items-center gap-4">
-      <div class="w-10 h-10 bg-[var(--color-surface)] rounded-xl flex items-center justify-center text-[var(--color-accent)] shrink-0">
-        <Phone size={18} />
-      </div>
-      <div>
-        <p class="text-xs text-[var(--color-text-muted)] mb-0.5">Phone</p>
-        <a href="tel:+15551234567" class="text-sm font-medium text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors" data-cursor-hover>
-          +1 (555) 123-4567
+    <p class="text-xs text-[var(--color-text-muted)] mb-6">
+      Typically respond within 24 hours.
+    </p>
+
+    <div>
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-text-muted)] mb-4">Follow us</p>
+      <div class="flex gap-3">
+        <a href="#" class="w-10 h-10 border border-[var(--color-border)] rounded-full flex items-center justify-center text-[var(--color-text-muted)] hover:bg-gradient-to-br hover:from-[#4F6EF7] hover:to-[#7C3AED] hover:text-white hover:border-transparent transition-all duration-300" aria-label="Serve Motions on LinkedIn" data-cursor-hover>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="#" class="w-10 h-10 border border-[var(--color-border)] rounded-full flex items-center justify-center text-[var(--color-text-muted)] hover:bg-gradient-to-br hover:from-[#4F6EF7] hover:to-[#7C3AED] hover:text-white hover:border-transparent transition-all duration-300" aria-label="Serve Motions on X / Twitter" data-cursor-hover>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="#" class="w-10 h-10 border border-[var(--color-border)] rounded-full flex items-center justify-center text-[var(--color-text-muted)] hover:bg-gradient-to-br hover:from-[#4F6EF7] hover:to-[#7C3AED] hover:text-white hover:border-transparent transition-all duration-300" aria-label="Serve Motions on Instagram" data-cursor-hover>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
         </a>
       </div>
-    </div>
-  </div>
-
-  <p class="text-xs text-[var(--color-text-muted)] mb-6">
-    Typically respond within 24 hours.
-  </p>
-
-  <div>
-    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-text-muted)] mb-4">Follow us</p>
-    <div class="flex gap-3">
-      <a href="#" class="w-10 h-10 border border-[var(--color-border)] rounded-full flex items-center justify-center text-[var(--color-text-muted)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors" aria-label="Serve Motions on LinkedIn" data-cursor-hover>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-      </a>
-      <a href="#" class="w-10 h-10 border border-[var(--color-border)] rounded-full flex items-center justify-center text-[var(--color-text-muted)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors" aria-label="Serve Motions on X / Twitter" data-cursor-hover>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-      </a>
-      <a href="#" class="w-10 h-10 border border-[var(--color-border)] rounded-full flex items-center justify-center text-[var(--color-text-muted)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors" aria-label="Serve Motions on Instagram" data-cursor-hover>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-      </a>
     </div>
   </div>
 </div>

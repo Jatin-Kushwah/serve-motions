@@ -92,6 +92,16 @@ const activeSchema = schema ?? defaultSchema;
       <span class="font-[var(--font-heading)] text-2xl font-extrabold tracking-tight text-white select-none">Serve Motions</span>
     </div>
 
+    <!-- Shared SVG noise filter — referenced by VideoSection and CTABand noise overlays -->
+    <svg width="0" height="0" aria-hidden="true" style="position:absolute;">
+      <defs>
+        <filter id="grain-noise">
+          <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
+          <feColorMatrix type="saturate" values="0"/>
+        </filter>
+      </defs>
+    </svg>
+
     <Header />
     <main>
       <slot />
@@ -102,7 +112,7 @@ const activeSchema = schema ?? defaultSchema;
 
     <script>
       import { initSplitting } from '@/scripts/splitting';
-      import { initScrollAnimations, initPageOverlay, initCounters, initHeadingReveal, initWorkCards, initServicesStagger, initClipReveal, initWhoWeAreParallax } from '@/scripts/animation';
+      import { initScrollAnimations, initPageOverlay, initCounters, initHeadingReveal, initWorkCards, initServicesStagger, initClipReveal, initWhoWeAreParallax, initHeroV2Parallax } from '@/scripts/animation';
       import '@/scripts/lenis';
       import { initCursor } from '@/scripts/cursor';
       import { initMagnetic } from '@/scripts/magnetic';
@@ -116,6 +126,7 @@ const activeSchema = schema ?? defaultSchema;
       initServicesStagger();
       initClipReveal();
       initWhoWeAreParallax();
+      initHeroV2Parallax();
       initCursor();
       initMagnetic();
     </script>
